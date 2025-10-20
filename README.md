@@ -7,9 +7,7 @@
 
 ## Introduction
 
-This repository provides the source code for **DAPG**, a novel graph-based Approximate Nearest Neighbor (ANN) indexing system introduced in the paper:
-DAPG integrates a **Distance-Aware Pruning (DAP)** mechanism into proximity graph construction, enabling efficient ANN search with reduced edge redundancy and improved recall. It adapts pruning thresholds based on **local geometric statistics**, producing sparse yet high-quality graphs.
-
+This repository provides the source code for **DAPG**, a novel graph-based Approximate Nearest Neighbor (ANN) indexing system introduced in the paper.
 
 ---
 
