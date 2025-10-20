@@ -160,18 +160,12 @@ This high-memory configuration allowed for efficient scaling to large datasets, 
 
 ## Benchmark Logs
 
-
-
 Each row logs detailed metrics:
 
 - **Recall**: Top-k retrieval accuracy
 - **Pruning**: Ratio of retained neighbors after DAP-based filtering
 - **Time**, **Cost**, and additional performance indicators
 - **Algorithm Name**: Includes pruning threshold information (e.g., `DAP_k10_th...`)
-
-All data in this file was automatically logged during batch experiments executed using the modified `main()` function in `cppCode/LSH-APG/src`.
-
-These results validate the effectiveness of our DAPG method, as submitted in the VLDB 2026 paper.
 
 
 ### Experimental Results Log
@@ -203,13 +197,6 @@ We evaluate DAP (Distance-Aware Pruning) with:
 DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node, unlike LSH-APG's global percentile pruning (`p = 95`). This results in better graph sparsity and recall-efficiency.
 
 We tune `K = 18` (vs. LSH-APG's default `K = 16`) for fairness.
-
-#### Baseline Settings
-
-- **HNSW**: `M = 48`, `ef = 80`  
-- **NSG**: `L = 40`, `R = 50`, `C = 500`  
-- **HCNNG**: 10 iterations, cluster size ≤ 500  
-- **DB-LSH**: `c = 1.5`, `K = 12`, `L = 5`
 
 ---
 
