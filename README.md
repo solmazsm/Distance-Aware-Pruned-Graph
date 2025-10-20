@@ -1,6 +1,6 @@
-# Distance-Aware-Pruned-Graph
+# DAPG: Distance-Aware Pruned Graph
 
-## DAPG: A Distance-Aware Pruned Graph Framework for Fast and Accurate Approximate Nearest Neighbor Search
+## Anonymous review artifact. This repository contains the reference implementation of DAPG, a single-layer, geometry-aware ANN index introduced in the paper.
 
 > 
 ---
@@ -11,11 +11,29 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 
 ---
 
+## What DAPG Adds
+
+**Distance-Aware Local Pruning (percentile threshold per node).**
+
+**Adaptive Global Sparsification (cap high-degree tails**
+
+**Parallel construction with thread-safe updates.**
+
+**Serialization of graph + LSH structures for fast reloads.**
+
+---
+
 ## Compilation
 
 The code is implemented in **C++11** and supports parallelism using **OpenMP**. It can be compiled on both Linux and Windows.
 
 ### Linux
+
+Linux (g++ / clang++)
+
+Requires C++11 and OpenMP.
+
+The provided Makefile auto-detects -fopenmp. If your toolchain differs, edit cppCode/DAPG/Makefile.
 
 ```bash
 cd ./cppCode/DAPG
@@ -167,8 +185,9 @@ Each row records:
 
 We evaluate DAP (Distance-Aware Pruning) with:
 
-- `K = 18`, `L = 2`, `T = 24`, `T′ = 48`
-- `W = 1.0`, `pC = 0.95`, `pQ = 0.9`, `efC = 80`
+- k=20, L=2, K=18, T=24, T′=48, W=1.0, pC=0.95, pQ=0.90, efC=80
+# DAPG computes τ_q per node (default percentile = 80).
+
 
 DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node.
 
@@ -183,7 +202,14 @@ We evaluate DAPG across a range of:
 
 This allows robust analysis of recall and efficiency across diverse search settings
 
+## Logs & Metrics
+Each run logs:
 
+Recall@k, Time(ms), Cost, CPQ*, Pruning(%)
+
+algName encodes the pruning threshold (e.g., DAP_k10_th80)
+
+Seed and environment are printed at the top for determinism.
 ## Research Project Directory Structure
 
 ```
