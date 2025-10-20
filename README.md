@@ -149,11 +149,8 @@ Each row logs detailed metrics:
 - **Algorithm Name**: Includes pruning threshold information (e.g., `DAP_k10_th...`)
 
 
-### Experimental Results Log
+### Experimental
 
-The experimental results presented here were produced by our DAPG system on the MNIST dataset to support reproducibility and performance evaluation.
-
-- The file contains timestamped benchmark logs produced from running LSH-G with varying `ef`, `k`, and pruning thresholds.
 - The header includes configuration details such as:  
   `k=20, probQ=0.9, L=2, K=18, T=24`
 
@@ -165,8 +162,6 @@ Each row records:
 - `Recall`: search recall
 - `Cost`, `CPQ1`, `CPQ2`: computation cost metrics
 - `Pruning`: pruning ratio applied
-
-These logs support reproducibility and provide a transparent view of DAPG’s performance characteristics.
 
 ### Parameter Settings
 
@@ -181,7 +176,7 @@ DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node.
 
 ### Evaluation Setup
 
-We evaluate DAP across a range of:
+We evaluate DAPG across a range of:
 
 - `k ∈ {1, 10, 20, ..., 100}`
 - `ef` values for query expansion
