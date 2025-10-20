@@ -197,8 +197,8 @@ This allows robust analysis of recall and efficiency across diverse search setti
 │       ├── indexes/ mnist_all_index_stats.txt  # Precomputed or saved index files
 │       ├── /divGraph.h             # Modified: Updated source files 
 │       ├── Makefile                  # Build configuration
-│       ├── main.cpp     
-│     
+│       ├── main.cpp       
+│       ├── Query.cpp
 │                         
 │       
 ├── dataset/                         
