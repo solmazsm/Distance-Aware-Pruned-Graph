@@ -15,7 +15,7 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 
 **Distance-Aware Local Pruning (percentile threshold per node).**
 
-**Adaptive Global Sparsification (cap high-degree tails**
+**Adaptive Global Sparsification (cap high-degree tails.**
 
 **Parallel construction with thread-safe updates.**
 
