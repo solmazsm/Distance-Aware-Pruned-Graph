@@ -186,7 +186,7 @@ Each row records:
 We evaluate DAP (Distance-Aware Pruning) with:
 
 - k=20, L=2, K=18, T=24, T′=48, W=1.0, pC=0.95, pQ=0.90, efC=80
-## DAPG computes τ_q per node (default percentile = 80).
+**DAPG computes τ_q per node (default percentile = 80).**
 
 
 DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node.
