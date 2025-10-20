@@ -194,14 +194,14 @@ This allows robust analysis of recall and efficiency across diverse search setti
 │   ├── src/                        # Modified: Distance-Aware Pruned Graph implementation
 │                 
     
-│       ├── indexes/                # Precomputed or saved index files
+│       ├── indexes/ mnist_all_index_stats.txt  # Precomputed or saved index files
 │       ├── /divGraph.h             # Modified: Updated source files 
 │       ├── Makefile                  # Build configuration
 │       ├── main.cpp     
-│       ├── audio_all_index_stats.txt
-│       ├── lgo                     # Executable 
-│       └── mnist_all_index_stats.txt
-├── dataset/                         # Benchmark datasets (e.g., MNIST, Audio)(DAPG)
+│     
+│                         
+│       
+├── dataset/                         
 ├── .gitattributes                   
 ├── .gitignore                       
 ├── LICENSE                          
