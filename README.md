@@ -191,11 +191,11 @@ This allows robust analysis of recall and efficiency across diverse search setti
 ├── .vscode/                         # VS Code settings
 ├── Report/                          # Project report and documentation
 ├── cppCode/                         # Main C++ codebase
-│   ├── DAPG/                        # Modified: Distance-Aware Pruned Graph implementation
+│   ├── src/                        # Modified: Distance-Aware Pruned Graph implementation
 │                 
     
 │       ├── indexes/                # Precomputed or saved index files
-│       ├── src/                    # Modified: Updated source files 
+│       ├── /divGraph.h                    # Modified: Updated source files 
 │       ├── Makefile                # Build configuration
 │       ├── all_index_stats.txt     # index performance stats (DAP)
 │       ├── audio_all_index_stats.txt
