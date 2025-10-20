@@ -58,7 +58,7 @@ This runs DAPG index construction and search on the `sift` dataset.
 -  Distance-Aware Local Pruning: Adapts edge filtering based on local percentile distances.
 -  Sparsity Control: Limits node degree while preserving connectivity in sparse regions.
 -  Improved Recall–Latency Tradeoff: Reduces query time without degrading recall.
--  Compatible with LSH-based Pipelines: Easily integrates with existing LSH-APG or other ANN frameworks.
+-  Compatible with ANN frameworks.
 
 ## Dataset Format
 
@@ -125,23 +125,12 @@ Our experiments were conducted on both local and cloud-based environments to eva
 This high-memory configuration allowed for efficient scaling to large datasets, and multi-threaded execution ensured fast parallel processing during both index construction and query search.
  
 
-## [2025-08-01] – Local Percentile-Based Pruning Integration
-### Key Features and Observations
-
-#### Hybrid LSH + Graph Construction
-- Integrated LSH-based candidate retrieval (`searchLSH`) with incremental graph building.
-- Used `insertLSHRefine` to refine candidate neighbors before inserting them into the graph.
-
 #### Distance-Aware Pruning (DAP)
 - Introduced a percentile-based thresholding mechanism.
 - For each node, computed the 80th percentile distance (τ_q) over LSH candidates.
 - Inserted only neighbors with `dist < τ_q` to ensure sparsity and relevance.
 - Exposed `last_threshold` for optional diagnostics or debugging.
 
-####  Neighbor Management
-- Supports two pruning strategies:
-  - `chooseNN_div`: Ensures selected neighbors are both close and diverse (distance-based repulsion).
-  - `chooseNN_simple`: Simplified version using max-heap filtering.
 
 ####  Parallel Construction
 - Used `ParallelFor` to insert all nodes in parallel (except the first).
@@ -151,12 +140,6 @@ This high-memory configuration allowed for efficient scaling to large datasets, 
 #### Serialization
 - Graph (`linkLists`) and LSH hash tables are saved to and loaded from a binary format.
 - Implemented in `save()` and the constructor `divGraph(Preprocess* prep, ...)`.
-
-####  Search Procedure
-- Two-stage hybrid search:
-  1. LSH-based candidate generation (`searchLSH`).
-  2. Graph-based search refinement (`bestFirstSearchInGraph`).
-- Reflects an LSH-HNSW-style retrieval pipeline for improved accuracy and speed.
 
 ## Benchmark Logs
 
