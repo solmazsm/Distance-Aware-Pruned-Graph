@@ -195,9 +195,9 @@ This allows robust analysis of recall and efficiency across diverse search setti
 │                 
     
 │       ├── indexes/                # Precomputed or saved index files
-│       ├── /divGraph.h                    # Modified: Updated source files 
-│       ├── Makefile                # Build configuration
-│       ├── all_index_stats.txt     # index performance stats (DAP)
+│       ├── /divGraph.h             # Modified: Updated source files 
+│       ├── Makefile                  # Build configuration
+│       ├── main.cpp     
 │       ├── audio_all_index_stats.txt
 │       ├── lgo                     # Executable 
 │       └── mnist_all_index_stats.txt
