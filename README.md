@@ -2,8 +2,6 @@
 
 ## DAPG: A Distance-Aware Pruned Graph Framework for Fast and Accurate Approximate Nearest Neighbor Search
 
-
-> **Distance-Aware Pruned Graphs for Accurate and Efficient Approximate Nearest Neighbor Search**  
 > 
 ---
 
