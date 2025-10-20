@@ -177,8 +177,6 @@ We evaluate DAP (Distance-Aware Pruning) with:
 
 DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node, unlike LSH-APG's global percentile pruning (`p = 95`). This results in better graph sparsity and recall-efficiency.
 
-We tune `K = 18` (vs. LSH-APG's default `K = 16`) for fairness.
-
 ---
 
 ### Evaluation Setup
