@@ -2,7 +2,19 @@
 
 ## Anonymous review artifact. This repository contains the reference implementation of DAPG, a single-layer, geometry-aware ANN index introduced in the paper.
 
-> 
+
+## **Abstract**
+
+DAPG introduces percentile-based local filtering and adaptive global sparsification to build degree-adaptive proximity graphs that preserve reachability while reducing redundant edges.  
+DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** baselines without multi-layer indexing.
+
+<p>
+  <kbd>+3.3% recall</kbd>
+  <kbd>2.9× faster</kbd>
+  <kbd>Single layer</kbd>
+  <kbd>LSH seeding</kbd>
+</p>
+
 ---
 
 ## Introduction
@@ -11,7 +23,8 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 
 ---
 
-## What DAPG Adds
+
+## What DAPG Adds - Method
 
 **Distance-Aware Local Pruning (percentile threshold per node).**
 
@@ -20,6 +33,17 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 **Parallel construction with thread-safe updates.**
 
 **Serialization of graph + LSH structures for fast reloads.**
+
+---
+## **Cost Model**
+
+Expected query cost factorizes into average degree and expansion depth.
+
+<pre>
+C_Q = O(&macr;d_DAPG · β(ℓ))
+T_Q = O(d · &macr;d_DAPG · β(ℓ))
+β(ℓ) = O(log n) under small-world routing
+</pre>
 
 ---
 
