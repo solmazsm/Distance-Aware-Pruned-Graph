@@ -39,6 +39,7 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 
 **Local percentile threshold  + adaptive cap <code>T'</code>.**
 **LSH seeding; no hierarchy.**
+
 **Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 Expected query cost factorizes into average degree and expansion depth.
