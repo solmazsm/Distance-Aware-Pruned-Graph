@@ -37,6 +37,9 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 ---
 ## **Cost Model**
 
+**Local percentile threshold  + adaptive cap <code>T'</code>.**
+**LSH seeding; no hierarchy.**
+**Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 Expected query cost factorizes into average degree and expansion depth.
 
@@ -47,10 +50,6 @@ T_Q = O(d · &macr;d_DAPG · β(ℓ))
 </pre>
 
 **Cost model: <code>C<sub>Q</sub> = O(&macr;d<sub>DAPG</sub>&nbsp;β(ℓ))</code>.**
-
-**Local percentile threshold  + adaptive cap <code>T'</code>.**
-**LSH seeding; no hierarchy.**
-**Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 ---
 
@@ -81,7 +80,7 @@ Use **Visual Studio 2019+** to import the project located in:
 
 Make sure to enable OpenMP and C++11 support in the build settings.
 
-## Usage
+## Implementation
 
 ### Command Format
 
