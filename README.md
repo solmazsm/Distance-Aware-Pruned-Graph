@@ -81,7 +81,7 @@ Use **Visual Studio 2019+** to import the project located in:
 
 Make sure to enable OpenMP and C++11 support in the build settings.
 
-## Implementation
+## Running DAPG
 
 ### Command Format
 
