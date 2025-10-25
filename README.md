@@ -48,8 +48,8 @@ T_Q = O(d · &macr;d_DAPG · β(ℓ))
 
 **Cost model: <code>C<sub>Q</sub> = O(&macr;d<sub>DAPG</sub>&nbsp;β(ℓ))</code>.**
 
+**Local percentile threshold  + adaptive cap <code>T'</code>.**
 **LSH seeding; no hierarchy.**
-
 **Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 ---
