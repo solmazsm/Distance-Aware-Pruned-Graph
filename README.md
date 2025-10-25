@@ -37,11 +37,6 @@ This repository provides the source code for **DAPG**, a novel graph-based Appro
 ---
 ## **Cost Model**
 
-**Cost model: <code>C<sub>Q</sub> = O(&macr;d<sub>DAPG</sub>&nbsp;β(ℓ))</code>.**
-
-**LSH seeding; no hierarchy.**
-
-**Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 Expected query cost factorizes into average degree and expansion depth.
 
@@ -50,6 +45,12 @@ C_Q = O(&macr;d_DAPG · β(ℓ))
 T_Q = O(d · &macr;d_DAPG · β(ℓ))
 β(ℓ) = O(log n) under small-world routing
 </pre>
+
+**Cost model: <code>C<sub>Q</sub> = O(&macr;d<sub>DAPG</sub>&nbsp;β(ℓ))</code>.**
+
+**LSH seeding; no hierarchy.**
+
+**Supports dynamic insertion and deletion with degree-stable connectivity.**
 
 ---
 
