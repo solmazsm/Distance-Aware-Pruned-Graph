@@ -247,6 +247,7 @@ Seed and environment are printed at the top for determinism.
 
 ### Experimental Results
 Performance comparison of DAPG vs. LSH-APG on DEEP1M, MNIST, and SIFT1M.
+DAPG continues to achieve higher recall and lower query latency than LSH-APG across all datasets, demonstrating consistent scalability and efficiency gains at larger neighborhood sizes.
 <table>
 <tr>
 <td>
