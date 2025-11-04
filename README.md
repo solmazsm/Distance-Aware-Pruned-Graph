@@ -3,7 +3,7 @@
 ## Anonymous review artifact. This repository contains the reference implementation of DAPG, a single-layer, geometry-aware ANN index introduced in the paper.
 
 
-## **Abstract**
+## **ABSTRACT**
 
 DAPG introduces percentile-based local filtering and adaptive global sparsification to build degree-adaptive proximity graphs that preserve reachability while reducing redundant edges.  
 DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** baselines without multi-layer indexing.
@@ -16,15 +16,53 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 </p>
 
 ---
+## Why This Work
 
-## Introduction
+### What existing ANN methods miss — and how **DAPG** fixes it
 
+|  Common gaps in existing ANN methods |  How **DAPG** addresses these |
+| :----------------------------------- | :------------------------------ |
+| • **Fixed-degree graphs:** Static degree limits prevent adaptive sparsification. |  **Adaptive sparsity:** percentile-based local filtering and global capping balance recall vs. cost. |
+| • **Costly rebuilds:** Traditional structures require full index reconstruction for new data. |  **Incremental updates:** supports amortized insertion with bounded rewire cost. |
+| • **Uncontrolled expansion:** Greedy traversal often expands redundant nodes. |  **Pruned search:** expansion is capped by β(ℓ), maintaining efficiency. |
+| • **Weak theoretical link:** Prior heuristics lack formal sublinear complexity bounds. |  **Theory-backed:** Lemma 3 + Lemma 2 prove sublinear query complexity O(d̄<sub>DAPG</sub> β(ℓ)) and bounded connectivity. |
+
+> **Result:** Higher recall (+3.3%), 2.9× lower query latency, and up to 10× smaller memory footprint—while preserving the same O(d̄<sub>DAPG</sub> β(ℓ)) complexity.
+
+---
+## Contributions
+
+## What We Bring
+<table> <tr> <td width="48%" valign="top">
+
+1) Theory
+Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing probabilistic bounds on reachability and connectivity under percentile-based sparsification.
+
+</td> <td width="48%" valign="top">
+
+2) Method
+DAPG introduces local percentile filtering (P<sub>local</sub>) and global capping (P<sub>global</sub>) to construct degree-adaptive graphs that minimize redundant edges while maintaining recall.
+
+</td> </tr> <tr> <td width="48%" valign="top">
+
+3) Empirics
+Outperforms LSH-APG across DEEP1M, MNIST, and SIFT1M, achieving up to +3.3% recall and 2.9× lower query latency, while reducing graph density and index memory.
+
+</td> <td width="48%" valign="top">
+
+4) Guidance
+Provides design rules for local/global pruning rates, ensuring consistent recall stability under dynamic insertions and scalable O(d C<sub>Q</sub>) maintenance.
+
+</td> </tr> </table>
+
+
+## INTRODUCTION
 This repository provides the source code for **DAPG**, a novel graph-based Approximate Nearest Neighbor (ANN) indexing system introduced in the paper.
 
 ---
 
 
-## What DAPG Adds - Method
+## What DAPG Adds - DISTANCE-AWARE PRUNED GRAPH FRAMEWORK
 
 **Distance-Aware Local Pruning (percentile threshold per node).**
 
@@ -54,30 +92,6 @@ T_Q = O(d · &macr;d_DAPG · β(ℓ))
 
 ---
 
-## Contributions
-
-## What We Bring
-<table> <tr> <td width="48%" valign="top">
-
-1) Theory
-Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing probabilistic bounds on reachability and connectivity under percentile-based sparsification.
-
-</td> <td width="48%" valign="top">
-
-2) Method
-DAPG introduces local percentile filtering (P<sub>local</sub>) and global capping (P<sub>global</sub>) to construct degree-adaptive graphs that minimize redundant edges while maintaining recall.
-
-</td> </tr> <tr> <td width="48%" valign="top">
-
-3) Empirics
-Outperforms LSH-APG across DEEP1M, MNIST, and SIFT1M, achieving up to +3.3% recall and 2.9× lower query latency, while reducing graph density and index memory.
-
-</td> <td width="48%" valign="top">
-
-4) Guidance
-Provides design rules for local/global pruning rates, ensuring consistent recall stability under dynamic insertions and scalable O(d C<sub>Q</sub>) maintenance.
-
-</td> </tr> </table>
 
 
 ## Compilation
@@ -132,7 +146,19 @@ This runs DAPG index construction and search on the `sift` dataset.
 -  Sparsity Control: Limits node degree while preserving connectivity in sparse regions.
 -  Improved Recall–Latency Tradeoff: Reduces query time without degrading recall.
 -  Compatible with ANN frameworks.
+  
+## Datasets
 
+We support and have tested DAPG on:
+
+- [Audio](https://github.com/RSIA-LIESMARS-WHU/LSHBOX-sample-data)
+- [SIFT1M](http://corpus-texmex.irisa.fr/)
+- [Deep1M](https://www.cse.cuhk.edu.hk/systems/hash/gqr/dataset/deep1M.tar.gz)
+- [MNIST](http://yann.lecun.com/exdb/mnist/)
+- [SIFT100M](http://corpus-texmex.irisa.fr/)
+
+
+Convert these into the `.data_new` format for compatibility.
 ## Dataset Format
 
 The expected input format is a binary file containing float vectors, structured as:
@@ -154,19 +180,8 @@ To use your dataset:
 
 A sample dataset (e.g., `audio.data_new`) is already provided.
 
-## Datasets
 
-We support and have tested DAPG on:
-
-- [Audio](https://github.com/RSIA-LIESMARS-WHU/LSHBOX-sample-data)
-- [SIFT1M](http://corpus-texmex.irisa.fr/)
-- [Deep1M](https://www.cse.cuhk.edu.hk/systems/hash/gqr/dataset/deep1M.tar.gz)
-- [MNIST](http://yann.lecun.com/exdb/mnist/)
-- [SIFT100M](http://corpus-texmex.irisa.fr/)
-
-
-Convert these into the `.data_new` format for compatibility.
-
+## EVALUATIONS
 ## System Setup
 
 Our experiments were conducted on both local and cloud-based environments to evaluate the efficiency and scalability of the DAPG system.
@@ -224,8 +239,6 @@ Each row logs detailed metrics:
 - **Algorithm Name**: Includes pruning threshold information (e.g., `DAP_k10_th...`)
 
 
-### Experimental
-
 - The header includes configuration details such as:  
   `k=20, probQ=0.9, L=2, K=18, T=24`
 
@@ -252,8 +265,6 @@ DAP applies **local dynamic pruning**, computing a threshold `τ_q` per node.
 
 ---
 
-### Evaluation Setup
-
 We evaluate DAPG across a range of:
 
 - `k ∈ {1, 10, 20, ..., 100}`
@@ -261,7 +272,7 @@ We evaluate DAPG across a range of:
 
 This allows robust analysis of recall and efficiency across diverse search settings
 
-## Logs & Metrics
+## Metrics
 Each run logs:
 
 Recall@k, Time(ms), Cost, CPQ*, Pruning(%)
@@ -270,10 +281,13 @@ algName encodes the pruning threshold (e.g., DAP_k10_th80)
 
 Seed and environment are printed at the top for determinism.
 
-## Empirical evidence
-
 
 ## Complexity and Efficiency Comparison
+
+> **Lemma 3** (supported by **Lemma 2**) proves that DAPG achieves sublinear query complexity  
+> **O(d̄<sub>DAPG</sub> β(ℓ))** with bounded degree and probabilistic connectivity,  
+> ensuring both **efficiency** and **graph connectivity**.
+
 
 **DAPG** achieves lower query complexity and higher efficiency than LSH-APG and HNSW-style baselines.  
 Its percentile-based local filtering and adaptive global sparsification yield a *degree-adaptive graph*
@@ -284,9 +298,6 @@ with reduced average degree while preserving reachability.
 - **No multi-layer structure** → smaller memory footprint and lower update cost  
 - **Empirical:** up to **2.9× faster** and **+3.3 % higher recall** than LSH-APG
 
-
-
-**Complexity Comparison**
 
 | Method | Build Complexity | Query Complexity | Notes |
 |:-------|:----------------:|:----------------:|:------|
@@ -352,7 +363,7 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 | **Query Complexity** | `O(d β(ℓ))` | **O(d̄<sub>DAPG</sub> β(ℓ)) ≈ O(d C<sub>Q</sub>)** | Same asymptotic form but smaller constant |
 | **Degree Control** | Fixed (no adaptivity) | **Adaptive via percentile P<sub>local</sub> + global cap P<sub>global</sub>** | Controllable sparsity |
 | **Update Cost** | Rebuild required | **Incremental O(d C<sub>Q</sub>)** (amortized) | dynamic updates |
-| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity** | Theoretical guarantees |
+| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity** | Theoretical Analysis |
 
 Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG provides the only single-layer hybrid structure with both a formally proven expected query complexity and a probabilistic connectivity guarantee, ensuring sublinear query cost and robust reachability under adaptive sparsification.
 > **As shown in Figure 8 (paper)**, DAPG reduces index memory by up to **10×** compared to HNSW and NSG on SIFT100M, while maintaining comparable build time.  
