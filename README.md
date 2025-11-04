@@ -54,6 +54,32 @@ T_Q = O(d · &macr;d_DAPG · β(ℓ))
 
 ---
 
+## Contributions
+
+## What We Bring
+<table> <tr> <td width="48%" valign="top">
+
+1) Theory
+Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing probabilistic bounds on reachability and connectivity under percentile-based sparsification.
+
+</td> <td width="48%" valign="top">
+
+2) Method
+DAPG introduces local percentile filtering (P<sub>local</sub>) and global capping (P<sub>global</sub>) to construct degree-adaptive graphs that minimize redundant edges while maintaining recall.
+
+</td> </tr> <tr> <td width="48%" valign="top">
+
+3) Empirics
+Outperforms LSH-APG across DEEP1M, MNIST, and SIFT1M, achieving up to +3.3% recall and 2.9× lower query latency, while reducing graph density and index memory.
+
+</td> <td width="48%" valign="top">
+
+4) Guidance
+Provides design rules for local/global pruning rates, ensuring consistent recall stability under dynamic insertions and scalable O(d C<sub>Q</sub>) maintenance.
+
+</td> </tr> </table>
+
+
 ## Compilation
 
 The code is implemented in **C++11** and supports parallelism using **OpenMP**. It can be compiled on both Linux and Windows.
@@ -244,8 +270,46 @@ algName encodes the pruning threshold (e.g., DAP_k10_th80)
 
 Seed and environment are printed at the top for determinism.
 
+## Empirical evidence
 
-### Experimental Results
+
+## Complexity and Efficiency Comparison
+
+**DAPG** achieves lower query complexity and higher efficiency than LSH-APG and HNSW-style baselines.  
+Its percentile-based local filtering and adaptive global sparsification yield a *degree-adaptive graph*
+with reduced average degree while preserving reachability.
+
+- **Build:** 𝒪̃(n d̄_seed) → d̄_DAPG 𝒪(d̄_DAPG β(ℓ))  
+- **Query:** 𝒪(d C_Q) amortized per query  
+- **No multi-layer structure** → smaller memory footprint and lower update cost  
+- **Empirical:** up to **2.9× faster** and **+3.3 % higher recall** than LSH-APG
+
+
+
+**Complexity Comparison**
+
+| Method | Build Complexity | Query Complexity | Notes |
+|:-------|:----------------:|:----------------:|:------|
+| HNSW | Õ(n d) | O(L d̄ β(ℓ)) | Multi-layer; log n levels |
+| LSH-APG | Õ(n d) | O(d̄ β(ℓ)) | Fixed-degree pruning |
+| **DAPG (Ours)** | Õ(n d<sub>seed</sub>) → d̄<sub>DAPG</sub> | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile + cap T′ |
+
+
+- **Fewer edges per node** → less traversal per query  
+- **Adaptive pruning** → lower redundancy  
+- **Single-layer design** → reduced memory vs. multi-layer HNSW  
+- **Dynamic updates** → amortized `O(d C_Q)` maintenance  
+
+
+| **Dataset** | **Recall@10** | **Query Time (ms)** | **Improvement vs LSH-APG** |
+|--------------|---------------|---------------------|-----------------------------|
+| **DEEP1M** | 0.9632 vs 0.9590 | 2.30 vs 3.43 | +0.44 % recall  /  32.9 % faster |
+| **MNIST** | 0.9984 vs 0.9972 | 0.56 vs 0.68 | +0.12 % recall  /  17.9 % faster |
+| **SIFT1M** | 0.9870 vs 0.9580 | 0.83 vs 2.42 | +3.34 % recall  /  2.9× faster |
+
+> DAPG achieves higher recall **and** lower latency on every dataset.
+
+
 Performance comparison of DAPG vs. LSH-APG on DEEP1M, MNIST, and SIFT1M.
 DAPG continues to achieve higher recall and lower query latency than LSH-APG across all datasets, demonstrating consistent scalability and efficiency gains at larger neighborhood sizes.
 <table>
