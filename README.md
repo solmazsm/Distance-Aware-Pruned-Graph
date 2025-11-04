@@ -345,6 +345,14 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 </tr>
 </table>
 
+## Comparison
+
+| **Aspect** | **LSH-APG** | **DAPG (Ours)** | **Outcome** |
+|:--|:--|:--|:--|
+| **Query Complexity** | `O(d β(ℓ))` | **O(d̄<sub>DAPG</sub> β(ℓ)) ≈ O(d C<sub>Q</sub>)** | Same asymptotic form but smaller constant |
+| **Degree Control** | Fixed (no adaptivity) | **Adaptive via percentile P<sub>local</sub> + global cap P<sub>global</sub>** | Controllable sparsity |
+| **Update Cost** | Rebuild required | **Incremental O(d C<sub>Q</sub>)** (amortized) | dynamic updates |
+| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity (Lemma 3, Thm 2)** | Theoretical guarantees |
 
 
 ## Research Project Directory Structure
