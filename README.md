@@ -352,7 +352,7 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 | **Query Complexity** | `O(d β(ℓ))` | **O(d̄<sub>DAPG</sub> β(ℓ)) ≈ O(d C<sub>Q</sub>)** | Same asymptotic form but smaller constant |
 | **Degree Control** | Fixed (no adaptivity) | **Adaptive via percentile P<sub>local</sub> + global cap P<sub>global</sub>** | Controllable sparsity |
 | **Update Cost** | Rebuild required | **Incremental O(d C<sub>Q</sub>)** (amortized) | dynamic updates |
-| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity (Lemma 3, Thm 2)** | Theoretical guarantees |
+| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity** | Theoretical guarantees |
 
 Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG provides the only single-layer hybrid structure with both a formally proven expected query complexity and a probabilistic connectivity guarantee, ensuring sublinear query cost and robust reachability under adaptive sparsification.
 > **As shown in Figure 8 (paper)**, DAPG reduces index memory by up to **10×** compared to HNSW and NSG on SIFT100M, while maintaining comparable build time.  
