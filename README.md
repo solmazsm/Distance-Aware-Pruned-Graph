@@ -243,6 +243,45 @@ Recall@k, Time(ms), Cost, CPQ*, Pruning(%)
 algName encodes the pruning threshold (e.g., DAP_k10_th80)
 
 Seed and environment are printed at the top for determinism.
+
+
+### Experimental Results
+Performance comparison of DAPG vs. LSH-APG on DEEP1M, MNIST, and SIFT1M.
+<table>
+<tr>
+<td>
+
+<b>Results at k = 10</b>
+
+| Dataset | Method | Recall@10 | Query Time (ms) | Index Size (MB) |
+|----------|---------|------------|----------------|----------------|
+| **DEEP1M** | LSH-APG | 0.9590 | 3.43 | 250 |
+|  | **DAPG (Ours)** | **0.9632 ± 0.0057** | **2.30 ± 0.20** | **449** |
+| **MNIST** | LSH-APG | 0.9972 | 0.682 | 10 |
+|  | **DAPG (Ours)** | **0.9984 ± 0.0010** | **0.560 ± 0.290** | **27.77** |
+| **SIFT1M** | LSH-APG | 0.9580 | 2.42 | 468 |
+|  | **DAPG (Ours)** | **0.9870 ± 0.0025** | **0.83 ± 0.00** | **455** |
+
+</td>
+<td>
+
+<b>Results at k = 50</b>
+
+| Dataset | Method | Recall@50 | Query Time (ms) | Index Size (MB) |
+|----------|---------|------------|----------------|----------------|
+| **DEEP1M** | LSH-APG | 0.9590 | 3.43 | 250 |
+|  | **DAPG (Ours)** | **0.9615 ± 0.0042** | **2.30 ± 0.22** | **449** |
+| **MNIST** | LSH-APG | 0.9972 | 0.682 | 10 |
+|  | **DAPG (Ours)** | **0.9984 ± 0.0010** | **0.560 ± 0.290** | **27.77** |
+| **SIFT1M** | LSH-APG | 0.9580 | 2.42 | 468 |
+|  | **DAPG (Ours)** | **0.9738 ± 0.0028** | **0.83 ± 0.00** | **455** |
+
+</td>
+</tr>
+</table>
+
+
+
 ## Research Project Directory Structure
 
 ```
