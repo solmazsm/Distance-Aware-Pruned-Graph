@@ -371,6 +371,66 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 > **DAPG demonstrates higher efficiency** than prior ANN frameworks, reducing query latency by up to **2.9×**, lowering memory footprint by up to **10×**, and maintaining comparable build cost, while preserving the same theoretical complexity  
 > **O(d̄<sub>DAPG</sub> β(ℓ))** and achieving consistently higher recall.
 
+
+## HNSW vs. LSH-APG vs. DAPG
+
+
+| Component / Feature       | HNSW                                          | LSH-APG                                         | DAPG (Ours)                                                        |
+|---------------------------|-----------------------------------------------|-------------------------------------------------|--------------------------------------------------------------------|
+| Graph structure           | Multi-layer hierarchical graph                | Single-layer pruned proximity graph             | Single-layer adaptive proximity graph                               |
+| Entry point               | Highest layer entry point                     | LSH-selected candidate neighbors                | LSH-selected neighbors + adaptive refinement                        |
+| Neighbor selection        | Heuristic: keep closest M                     | Global pruning using T, T′ and p                | Node-wise percentile threshold τᵢ + optional T′                     |
+| Pruning rule              | Heuristic prune to limit degree               | Global: p = 95% threshold, fixed cap T′         | Local: percentile τᵢ based on distance distribution                 |
+| Adaptivity to density     | Partial (through heuristic)                   | None                                            | Strong (τᵢ depends on local density)                                |
+| Search algorithm          | Greedy + efSearch priority queue              | LSH-seeded greedy/best-first on APG graph       | LSH-seeded greedy/best-first on DAPG-pruned graph (Alg. 5)         |
+| Construction complexity   | Ō(n d̂) (incremental; ≈ Ō(M log N) per insertion)  | Ō(n d_seed) (batch) | Ō(n d_seed) → d̂_DAPG (batch, adaptive) |
+| Degree control            | Controlled by M, M_max                        | Strict global caps T, T′                         | Local adaptive τᵢ + optional global cap                             |
+| Index size                | Higher (multiple layers)                      | Moderate                                         | More balanced degrees                           |
+| Memory usage              | Higher due to layers                          | Lower                                            | Similar to LSH-APG                                                  |
+| Parameters exposed        | M, M_max, efConstruction, efSearch            | K, L, T, T′, p, W                                | + local_percentile; more sparsity-control flexibility                |
+| Navigability              | hierarchical small-world                      | single-layer                                      | More uniform due to adaptive sparsification                 |
+| Sensitivity to tuning     | Moderate                                      | High (global p, T, T′ must be tuned)            | Lower (τᵢ adapts automatically to dataset)                          |
+| Dense regions            | Many neighbors pruned by heuristic            | Over-pruned due to global rule                   | Preserves more neighbors (τᵢ chosen from local distribution)        |
+| Sparse areas             | Few connections, but hierarchy helps          | over-prune                                       | Keeps edges (τᵢ expands for sparse nodes)                           |
+
+##  Mapping DAPG Features
+| Feature                      | LSH-APG | DAPG (Ours)                            | Algorithm(s) in Paper |
+|-----------------------------|---------|--------------------------------------------|------------------------|
+| Batch initial construction  | Yes     | Yes                                        | Alg. 1 or Alg. 2       |
+| Adaptive local pruning (τᵢ) | No      | Yes (percentile pruning)                   | Alg. 3 (P_local)       |
+| Global + local hybrid prune | No      | Yes (τᵢ + T′ refinement)                    | Alg. 3 + Alg. 4        |
+| Better balancing of degrees | No      | Yes (local τᵢ + global T′)                | Alg. 3 + Alg. 4        |
+| More stable search cost     | No      | Yes (bounded degree from pruning)          | Alg. 3 + Alg. 4        |
+| Search procedure            | LSH-seeded greedy/best-first on APG graph    | Greedy Best-First Search (improved graph)  | Alg. 5 (DAPG-Query)    |
+| Dynamic update              | No      | **Yes (Dynamic update algorithm)**     | **Alg. 6 (Update)**    |
+| Pruned graph construction   | Yes     | Yes, but adaptive and two-stage            | Alg. 1 or Alg. 2       |
+
+| Algorithm        | Category            | Notes                                                                                   |
+|------------------|---------------------|-----------------------------------------------------------------------------------------|
+| **HNSW**         | Incremental         | Requires hierarchical layers and higher memory, limiting scalability for large dynamic datasets  |
+| **LSH-APG**      | Batch               | Single-phase construction with no support for dynamic graph maintenance                |
+| **DAPG (Ours)** | **Batch + Dynamic** | Batch construction with efficient dynamic updates through locality-aware pruning |
+
+## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
+### 1. Lightweight (memory-efficient)
+Figure 8 (Index Size):
+DAPG is much smaller on MNIST and SIFT100M, meaning the pruning is effective.
+
+DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on large datasets (DEEP1M, SIFT100M).
+
+### 2. Efficient (fast query + fast build)
+Fast query:
+DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
+
+Fast build:
+Figure 8 demonstrates that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and outperforms LSH-APG on large datasets.
+
+Query Time (DEEP1M) from Table 4:
+Query time ~1.3–1.5ms vs. LSH-APG ~3.4ms.
+
+### 3. Dynamically maintainable
+Algorithm 6 provides full insert/delete updates.
+
 ## Research Project Directory Structure
 
 ```
