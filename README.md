@@ -415,17 +415,17 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 ### 1. Lightweight (memory-efficient)
 Figure 8 (Index Size):
 DAPG is much smaller on MNIST and SIFT100M, meaning the pruning is effective.
-
+Figure 8 (Indexing Time):
 DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on large datasets (DEEP1M, SIFT100M).
-
+This confirms that two-stage pruning does not increase construction overhead.
 ### 2. Efficient (fast query + fast build)
-Fast query:
-DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
+Fast query: 
+Figure 11 (SIFT100M) demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
 
 Fast build:
 Figure 8 demonstrates that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and outperforms LSH-APG on large datasets.
 
-Query Time (DEEP1M) from Table 4:
+Fast query: Table 4 (DEEP1M)
 Query time ~1.3–1.5ms vs. LSH-APG ~3.4ms.
 
 ### 3. Dynamically maintainable
