@@ -420,13 +420,15 @@ DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on larg
 This confirms that two-stage pruning does not increase construction overhead.
 ### 2. Efficient (fast query + fast build)
 Fast query: 
-Figure 11 (SIFT100M) demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
+**Figure 11 (SIFT100M)** demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
 
-Fast build:
-Figure 8 demonstrates that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and outperforms LSH-APG on large datasets.
 
-Fast query: Table 4 (DEEP1M)
-Query time ~1.3–1.5ms vs. LSH-APG ~3.4ms.
+Fast build: Figure 8 shows that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and consistently outperforms LSH-APG on large datasets (DEEP1M and SIFT100M).
+
+
+Query Time (DEEP1M):
+**Figure 10** and **Table 5 (Comparison of DAPG and fastG on DEEP1M)**,  
+**DAPG reduces query latency from ~3.4 ms (LSH-APG / fastG) to as low as ~1.3–1.5 ms, providing more than a 2× speedup while also achieving higher recall.**
 
 ### 3. Dynamically maintainable
 Algorithm 6 provides full insert/delete updates.
