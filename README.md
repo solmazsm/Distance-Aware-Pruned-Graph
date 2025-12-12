@@ -180,8 +180,20 @@ To use your dataset:
 
 A sample dataset (e.g., `audio.data_new`) is already provided.
 
-
 ## EVALUATIONS
+### Dataset Geometry and Its Effect on DAPG's Pruning Threshold
+
+DAPG adapts its pruning threshold to each node’s local neighborhood distance distribution, enabling enhanced pruning selectivity on low-LID datasets and more conservative edge retention on high-LID datasets.
+This enables the algorithm to preserve essential connectivity on high-LID or heterogeneous datasets, while performing significantly stronger sparsification on low-LID datasets. As a result, DAPG simultaneously achieves higher accuracy and more compact graph construction
+
+| Dataset      | Neighborhood Geometry            | LID | Effect on Local Threshold τᵢ                               | Resulting Graph Size |
+|--------------|----------------------------------|-----|-------------------------------------------------------------|-----------------------|
+| **Audio**    | Uniform MFCC neighborhoods       | 21.5 | Stable distances → stable τᵢ → consistent pruning           | **Small** |
+| **MNIST**    | Pixel manifold; clustered        | 12.7 | Very small τᵢ → strong pruning                              | **Small** |
+| **Deep1M**   | Heterogeneous, cosine-based      | 26.0 | Wide distance spread → large τᵢ → keep more edges           | **Larger** |
+| **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Small–Medium** |
+| **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale               | **Smaller** |
+
 ## System Setup
 
 Our experiments were conducted on both local and cloud-based environments to evaluate the efficiency and scalability of the DAPG system.
@@ -413,25 +425,35 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 
 ## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
 ### 1. Lightweight (memory-efficient)
-Figure 8 (Index Size):
-DAPG is much smaller on MNIST and SIFT100M, meaning the pruning is effective.
-Figure 8 (Indexing Time):
-DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on large datasets (DEEP1M, SIFT100M).
-This confirms that two-stage pruning does not increase construction overhead.
-### 2. Efficient (fast query + fast build)
-Fast query: 
-**Figure 11 (SIFT100M)** demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
+> Figure 8 (Index Size):
+> DAPG is much smaller on MNIST and SIFT100M, meaning the pruning is effective.
+> Figure 8 (Indexing Time):
+> DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on large datasets (DEEP1M, SIFT100M).
+> This confirms that two-stage pruning does not increase construction overhead.
+ ### 2. Efficient (fast query + fast build)
+> Fast query: 
+> **Figure 11 (SIFT100M)** demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
 
 
-Fast build: Figure 8 shows that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and consistently outperforms LSH-APG on large datasets (DEEP1M and SIFT100M).
+> Fast build: Figure 8 shows that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and consistently outperforms LSH-APG on large datasets (DEEP1M and SIFT100M).
 
 
-Query Time (DEEP1M):
-**Figure 10** and **Table 5 (Comparison of DAPG and fastG on DEEP1M)**,  
-**DAPG reduces query latency from ~3.4 ms (LSH-APG / fastG) to as low as ~1.3–1.5 ms, providing more than a 2× speedup while also achieving higher recall.**
+> Query Time (DEEP1M):
+> **Figure 10** and **Table 5 (Comparison of DAPG and fastG on DEEP1M)**,  
+> **DAPG reduces query latency from ~3.4 ms (LSH-APG / fastG) to as low as ~1.3–1.5 ms, providing more than a 2× speedup while also achieving higher recall.**
 
 ### 3. Dynamically maintainable
-Algorithm 6 provides full insert/delete updates.
+
+> **Key Distinction: DAPG vs. LSH-APG**
+>
+> LSH-APG applies a fixed global degree cap **T′** in its construction procedure (Alg. 2), imposing a uniform degree bound that does not adapt to local geometric or statistical variation in the dataset.  
+>  
+> In contrast, **DAPG** derives a *node-wise*, data-adaptive threshold  
+> τᵢ = Percentile_p { δ(vᵢ, vⱼ) ∣ vⱼ ∈ N(vᵢ) } 
+> via the **LocalPrune** and **GlobalPrune** operators (Algs. 3–4), and uses this mechanism consistently throughout **DAPG-Index-Construction** (Algs. 1–2), **DAPG-Query** (Alg. 5), and **DAPG-Update** (Alg. 6).  
+>  
+> Because τᵢ is data-adaptive, DAPG preserves structurally essential neighbors in **high-LID** neighborhoods while performing strong sparsification on **low-LID** neighborhoods, providing higher recall, faster query times, and smaller index sizes than existing APG-based methods, particularly at large scale.
+
 
 ## Research Project Directory Structure
 
