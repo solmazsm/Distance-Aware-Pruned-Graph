@@ -459,12 +459,13 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 
 ```
 .
-.
 ├── .vscode/                         # VS Code settings
 │
 ├── Report/                          # Project report and documentation
 │
-├── cppCode/                         # Main C++ codebase
+├── cppCode/
+├── DAPG/
+│   └── Makefile                         # Build configuration
 │   ├── src/                         # Distance-Aware Pruned Graph implementation
 │   │   ├── indexes/                 # Precomputed/saved index statistics
 │   │   │   ├── mnist_all_index_stats.txt
@@ -475,7 +476,7 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 │   │   ├── Preprocess.h            
 │   │   ├── Query.cpp               
 │   │   ├── main.cpp                
-│   │   ├── Makefile                 # Build configuration
+│   │                
 │   │
 ├── docs/
     └── result/
