@@ -459,26 +459,33 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 
 ```
 .
+.
 ├── .vscode/                         # VS Code settings
+│
 ├── Report/                          # Project report and documentation
+│
 ├── cppCode/                         # Main C++ codebase
-│   ├── src/                        # Modified: Distance-Aware Pruned Graph implementation
-│                 
-    
-│       ├── indexes/ mnist_all_index_stats.txt  # Precomputed or saved index files
-│       ├── /divGraph.h             # Modified: Updated source files 
-│       ├── Makefile                  # Build configuration
-│       ├── main.cpp       
-│       ├── Query.cpp
-        ├── dapgalg.h
-
-│                         
-│       
+│   ├── src/                         # Distance-Aware Pruned Graph implementation
+│   │   ├── indexes/                 # Precomputed/saved index statistics
+│   │   │   ├── mnist_all_index_stats.txt
+│   │   │   ├── audio_all_index_stats.txt
+│   │   │
+│   │   ├── divGraph.h               #Modified: Graph structure (updated Source files)
+│   │   ├── dapgalg.h                
+│   │   ├── Preprocess.h            
+│   │   ├── Query.cpp               
+│   │   ├── main.cpp                
+│   │   ├── Makefile                 # Build configuration
+│   │
+├── docs/
+    └── result/
+│       └── recall_vs_qt_sift100m.pdf
 ├── dataset/                         
-├── .gitattributes                   
-├── .gitignore                       
-├── LICENSE                          
-└── README.md                       
+├── .gitattributes
+├── .gitignore
+├── LICENSE
+└── README.md
+             
 ```
 ## Contact
 
