@@ -455,6 +455,19 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 > Because τᵢ is data-adaptive, DAPG preserves structurally essential neighbors in **high-LID** neighborhoods while performing strong sparsification on **low-LID** neighborhoods, providing higher recall, faster query times, and smaller index sizes than existing APG-based methods, particularly at large scale.
 
 
+
+## Query Efficiency and Recall
+
+As shown in **Figure 1**, DAPG consistently achieves lower query latency than LSH-APG across all evaluated datasets, while maintaining comparable or higher recall.
+
+On **Deep1M** with `k = 100`, DAPG achieves a recall of **0.961** with a query time of **2.7 ms**, outperforming LSH-APG, which requires **3.43 ms** to reach similar recall.  
+On the **Audio** dataset with `k = 50`, DAPG reaches a recall of **0.9951** in **0.48 ms**, compared to **0.528 ms** for the baseline.
+
+Marker shapes correspond to different values of `k`, and **red dashed lines indicate baseline (LSH-APG) query times**. Overall, these results demonstrate that DAPG serves as an effective and lightweight refinement strategy, improving graph sparsity and query efficiency.
+
+**Figure 1**: [Query Time vs Recall (PDF)](figures/query_time_and_recall_vs_ef.pdf)
+
+
 ## Research Project Directory Structure
 
 ```
