@@ -423,6 +423,9 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 | **LSH-APG**      | Batch               | Single-phase construction with no support for dynamic graph maintenance                |
 | **DAPG (Ours)** | **Batch + Dynamic** | Batch construction with efficient dynamic updates through locality-aware pruning |
 
+
+## Key Result:
+
 ## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
 ### 1. Lightweight (memory-efficient)
 > Figure 8 (Index Size):
@@ -467,7 +470,7 @@ Marker shapes correspond to different values of `k`, and **red dashed lines indi
 
 **Figure 1:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/query_time_and_recall_vs_ef.pdf)
 
-## Key Result: DAPG vs. LSH-APG (Recall–Latency)
+##  DAPG vs. LSH-APG (Recall–Latency)
 
 As shown in **Figure 2 `dap_vs_lshapg`**, DAPG consistently outperforms the LSH-APG baseline across all neighborhood budgets (NB).  
 For example, **DAPG_k=10** and **DAPG_k=20** achieve high recall (≈0.971) with substantially lower query times (**1.378 ms** and **1.508 ms**) than **LSH-APG**, which attains lower recall (<0.96) and higher latency (>1.6 ms).  
