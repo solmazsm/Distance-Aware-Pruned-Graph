@@ -476,7 +476,7 @@ As shown in **Figure 2 `dap_vs_lshapg`**, DAPG consistently outperforms the LSH-
 For example, **DAPG_k=10** and **DAPG_k=20** achieve high recall (≈0.971) with substantially lower query times (**1.378 ms** and **1.508 ms**) than **LSH-APG**, which attains lower recall (<0.96) and higher latency (>1.6 ms).  
 Even at larger budgets (**k = 50, 100**), DAPG maintains recall above **0.966** with competitive or improved latency. Overall, the best trade-off occurs at **k = 10**, where DAPG reaches **0.971 recall** at **1.378 ms** query time.
 
-**Figure 2:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/tree/master/docs/result/figures)
+**Figure 2:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/dap_vs_lshapg_comparison.pdf)
 
 
 ## Research Project Directory Structure
