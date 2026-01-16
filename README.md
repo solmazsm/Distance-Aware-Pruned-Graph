@@ -465,9 +465,15 @@ On the **Audio** dataset with `k = 50`, DAPG reaches a recall of **0.9951** in *
 
 Marker shapes correspond to different values of `k`, and **red dashed lines indicate baseline (LSH-APG) query times**. Overall, these results demonstrate that DAPG serves as an effective and lightweight refinement strategy, improving graph sparsity and query efficiency.
 
-**Figure 1 – Query Time vs Recall**  
-[View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/query_time_and_recall_vs_ef.pdf)
+**Figure 1:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/query_time_and_recall_vs_ef.pdf)
 
+## Key Result: DAPG vs. LSH-APG (Recall–Latency)
+
+As shown in **Figure 2 `dap_vs_lshapg`**, DAPG consistently outperforms the LSH-APG baseline across all neighborhood budgets (NB).  
+For example, **DAPG_k=10** and **DAPG_k=20** achieve high recall (≈0.971) with substantially lower query times (**1.378 ms** and **1.508 ms**) than **LSH-APG**, which attains lower recall (<0.96) and higher latency (>1.6 ms).  
+Even at larger budgets (**k = 50, 100**), DAPG maintains recall above **0.966** with competitive or improved latency. Overall, the best trade-off occurs at **k = 10**, where DAPG reaches **0.971 recall** at **1.378 ms** query time.
+
+**Figure 2:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/tree/master/docs/result/figures)
 
 
 ## Research Project Directory Structure
