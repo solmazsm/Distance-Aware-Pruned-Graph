@@ -195,9 +195,10 @@ This enables the algorithm to preserve essential connectivity on high-LID or het
 | **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Medium** |
 | **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale               | **Smaller** |
 
-| Text Dataset |  Similarity | d | 
-|--------------|----------------
-| **m_cc_news** | ℓ₂ | 384 |            
+| Text Dataset  | Similarity |  d  |
+|--------------|------------|-----|
+| **m_cc_news** | ℓ₂         | 384 |
+          
 
 ## System Setup
 
