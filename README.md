@@ -156,6 +156,7 @@ We support and have tested DAPG on:
 - [Deep1M](https://www.cse.cuhk.edu.hk/systems/hash/gqr/dataset/deep1M.tar.gz)
 - [MNIST](http://yann.lecun.com/exdb/mnist/)
 - [SIFT100M](http://corpus-texmex.irisa.fr/)
+- [m_cc_news](https://huggingface.co/datasets/intfloat/multilingual_cc_news)
 
 
 Convert these into the `.data_new` format for compatibility.
@@ -186,13 +187,16 @@ A sample dataset (e.g., `audio.data_new`) is already provided.
 DAPG adapts its pruning threshold to each node’s local neighborhood distance distribution, enabling enhanced pruning selectivity on low-LID datasets and more conservative edge retention on high-LID datasets.
 This enables the algorithm to preserve essential connectivity on high-LID or heterogeneous datasets, while performing significantly stronger sparsification on low-LID datasets. As a result, DAPG simultaneously achieves higher accuracy and more compact graph construction
 
-| Dataset      | Neighborhood Geometry            | LID | Effect on Local Threshold τᵢ                               | Resulting Graph Size |
+| ANN Datasets |  Geometry            | LID | Effect on Local Threshold τᵢ                                            | Graph Size |
 |--------------|----------------------------------|-----|-------------------------------------------------------------|-----------------------|
 | **Audio**    | Uniform MFCC neighborhoods       | 21.5 | Stable distances → stable τᵢ → consistent pruning           | **Small** |
 | **MNIST**    | Pixel manifold; clustered        | 12.7 | Very small τᵢ → strong pruning                              | **Small** |
 | **Deep1M**   | Heterogeneous, cosine-based      | 26.0 | Wide distance spread → large τᵢ → keep more edges           | **Larger** |
-| **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Small–Medium** |
+| **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Medium** |
 | **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale               | **Smaller** |
+
+**Text Dataset**
+| **m_cc_news** | ℓ₂ | 173 langs d: 384 |            
 
 ## System Setup
 
