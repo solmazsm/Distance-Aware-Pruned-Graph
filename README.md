@@ -485,7 +485,7 @@ Even at larger budgets (**k = 50, 100**), DAPG maintains recall above **0.966** 
 **Figure 2:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/dap_vs_lshapg_comparison.pdf)
 
 ## DAPG vs. baselines deep1m and audio
-Figure 3 further highlights DAPG’s strong performance over the baselines on Deep1M and Audio, achieving the highest recall@10 while also attaining the lowest query time. These results indicate that DAPG preserves high-quality neighbors while constructing sparse, navigable proximity graphs, and that its advantages are especially pronounced on heterogeneous datasets such as \Audio.
+Figure 3 further highlights DAPG’s strong performance over the baselines on **Deep1M and Audio**, achieving the highest recall@10 while also attaining the lowest query time. These results indicate that DAPG preserves high-quality neighbors while constructing sparse, navigable proximity graphs, and that its advantages are especially pronounced on heterogeneous datasets such as **Audio**.
 
 **Figure 3:** [View PDF]
 
