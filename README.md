@@ -93,7 +93,6 @@ T_Q = O(d · &macr;d_DAPG · β(ℓ))
 ---
 
 
-
 ## Compilation
 
 The code is implemented in **C++11** and supports parallelism using **OpenMP**. It can be compiled on both Linux and Windows.
