@@ -25,7 +25,7 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 | • **Fixed-degree graphs:** Static degree limits prevent adaptive sparsification. |  **Adaptive sparsity:** percentile-based local filtering and global capping balance recall vs. cost. |
 | • **Costly rebuilds:** Traditional structures require full index reconstruction for new data. |  **Incremental updates:** supports amortized insertion with bounded rewire cost. |
 | • **Uncontrolled expansion:** Greedy traversal often expands redundant nodes. |  **Pruned search:** expansion is capped by β(ℓ), maintaining efficiency. |
-| • **Weak theoretical link:** Prior heuristics lack formal sublinear complexity bounds. |  **Theory-backed:** Lemma 3 + Lemma 2 prove sublinear query complexity O(d̄<sub>DAPG</sub> β(ℓ)) and bounded connectivity. |
+| • **Weak theoretical link:** Prior heuristics lack formal sublinear complexity bounds. |  **Theory-backed:** Lemma 2 prove sublinear query complexity O(d̄<sub>DAPG</sub> β(ℓ)) and bounded connectivity. |
 
 > **Result:** Higher recall (+3.3%), 2.9× lower query latency, and up to 10× smaller memory footprint—while preserving the same O(d̄<sub>DAPG</sub> β(ℓ)) complexity.
 
@@ -382,12 +382,26 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 | **Update Cost** | Rebuild required | **Incremental O(d C<sub>Q</sub>)** (amortized) | dynamic updates |
 | **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity** | Theoretical Analysis |
 
+
 Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG provides the only single-layer hybrid structure with both a formally proven expected query complexity and a probabilistic connectivity guarantee, ensuring sublinear query cost and robust reachability under adaptive sparsification.
-> **As shown in Figure 8 (paper)**, DAPG reduces index memory by up to **10×** compared to HNSW and NSG on SIFT100M, while maintaining comparable build time.  
+> DAPG reduces index memory by up to **10×** compared to HNSW and NSG on SIFT100M, while maintaining comparable build time.  
 >  
 > **DAPG demonstrates higher efficiency** than prior ANN frameworks, reducing query latency by up to **2.9×**, lowering memory footprint by up to **10×**, and maintaining comparable build cost, while preserving the same theoretical complexity  
 > **O(d̄<sub>DAPG</sub> β(ℓ))** and achieving consistently higher recall.
+> 
 
+| Feature / Goal | DAPG | LIGS (SIGIR'25) |
+|---|---|---|
+| Core idea | Build an explicit, geometry-aware pruned ANN graph | Simulate a proximity graph implicitly using locality-sensitive hashing buckets |
+| Index structure | Explicit graph | Implicit “pseudo-graph” induced by hash tables |
+| Construction | LSH seeding + distance-aware pruning + adaptive degree control | Build multiple hash tables; treat buckets as fully connected subgraphs |
+| Query traversal | Graph search over pruned neighbors (low redundancy) | Graph-style search by expanding collision sets from buckets |
+| Best use case | High-recall, low-latency ANN retrieval (IR/search pipelines) | Maintenance-heavy workloads where fast insert/delete is critical |
+| Update handling | Supports dynamic maintenance while preserving navigability | Insert/delete via hash table updates (no explicit graph maintenance) |
+| High-recall behavior | Typically more stable and efficient at high recall | Often needs more bucket probes / expansions to reach high recall |
+
+
+#### As recall increases to high operating points (0.95–0.97), DAPG consistently maintains lower search latency under dynamic updates, while LIGS and LSH-APG incur substantially higher costs or unable to reach the target recall (Figure 7).
 
 ## HNSW vs. LSH-APG vs. DAPG
 
