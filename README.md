@@ -400,8 +400,9 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 | Update handling | Supports dynamic maintenance while preserving navigability | Insert/delete via hash table updates (no explicit graph maintenance) |
 | High-recall behavior | Typically more stable and efficient at high recall | Often needs more bucket probes / expansions to reach high recall |
 
+![High recall](https://img.shields.io/badge/high%20recall-0.95%E2%80%930.97-red)
+> **Key takeaway (0.95–0.97 recall):** DAPG maintains lower search latency under dynamic updates, while LIGS and LSH-APG incur higher costs or **are unable to reach the target recall**. The **PSEUDO-DAPG** ablation highlights the importance of DAPG’s pruning logic for efficient high-recall traversal (Figure 7).
 
-#### As recall increases to high operating points (0.95–0.97), DAPG consistently maintains lower search latency under dynamic updates, while LIGS and LSH-APG incur substantially higher costs or unable to reach the target recall (Figure 7).
 
 ## HNSW vs. LSH-APG vs. DAPG
 
