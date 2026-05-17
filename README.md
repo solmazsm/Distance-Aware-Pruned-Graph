@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://students.washington.edu/solmazsm/"><strong>Solmaz Seyed Monir</strong></a>, 
-  <a href=""><strong>Dr. Dongfang Zhao</strong></a>,
+  <a href="https://faculty.washington.edu/dzhao/"><strong>Dr. Dongfang Zhao</strong></a>,
 
 </p>
 
