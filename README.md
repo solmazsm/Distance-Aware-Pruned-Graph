@@ -17,12 +17,10 @@
     <img height="32" src="https://img.icons8.com/ios-filled/50/4a90e2/internet.png" alt="VecLSTM Project"/>
   </a>
 
-  <a href="https://github.com/solmazsm/DAPG/">
+  <a href="https://github.com/solmazsm/Distance-Aware-Pruned-Graph/">
     <img src="https://img.shields.io/badge/Code-000000?style=for-the-badge&logo=github&logoColor=white" />
   </a>
-  <a href="https://arxiv.org/abs/2410.18294">
-    <img src="https://img.shields.io/badge/arXiv-CC0000?style=for-the-badge&logo=arxiv&logoColor=white" />
-  </a>
+  
 </p>  
 
 <p align="center">
