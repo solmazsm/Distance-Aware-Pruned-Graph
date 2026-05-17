@@ -13,8 +13,8 @@
 
 
 <p align="center">
-  <a href="https://solmazsm.github.io/DAPG/" target="_blank">
-    <img height="32" src="https://img.icons8.com/ios-filled/50/4a90e2/internet.png" alt="VecLSTM Project"/>
+  <a href="https://solmazsm.github.io/Distance-Aware-Pruned-Graph/" target="_blank">
+    <img height="32" src="https://img.icons8.com/ios-filled/50/4a90e2/internet.png" alt="DAPG Project"/>
   </a>
 
   <a href="https://github.com/solmazsm/Distance-Aware-Pruned-Graph/">
