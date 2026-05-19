@@ -598,6 +598,7 @@ Figure 3 further highlights DAPG’s strong performance over the baselines on **
 
 <p align="center">
   <b>Figure:</b> Recall and query-time comparison between DAPG and reproduced LSH-APG across different `ef` and `k` settings.
+ As shown in Figure~\ref{fig:query_time_and_recall_vs_ef}, DAPG consistently achieves lower query latency than LSH-APG across all datasets, while maintaining comparable or higher recall. On \textsc{Deep1M} at $k{=}100$, DAPG attains a recall of 0.961 with a query time of 2.7\,ms, outperforming LSH-APG’s 3.43\,ms. Similarly, on \textsc{Audio} at $k{=}50$, DAPG reaches a recall of 0.9951 in 0.48\,ms versus 0.528\,ms for the baseline. Marker shapes denote different $k$ values, and red dashed lines indicate baseline query times. These results validate DAPG as an effective, lightweight refinement strategy that improves both graph sparsity and query efficiency.  
 </p>
 
 
