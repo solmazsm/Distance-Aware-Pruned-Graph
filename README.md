@@ -576,6 +576,16 @@ Figure 3 further highlights DAPG’s strong performance over the baselines on **
 **Figure 3:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/dap_vs_baselines_deep1m_audio.pdf)
 
 
+
+### Recall and Query-Time Analysis
+
+<p align="center">
+  <img src="docs/result/result/dapg_recall_latency.png" width="600">
+</p>
+
+<p align="center">
+  <b>Figure:</b> Recall and query-time comparison between DAPG and reproduced LSH-APG across different `ef` and `k` settings.
+</p>
 ## Research Project Directory Structure
 
 ```
