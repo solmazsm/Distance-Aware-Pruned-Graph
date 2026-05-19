@@ -579,13 +579,30 @@ Figure 3 further highlights DAPG’s strong performance over the baselines on **
 
 ### Recall and Query-Time Analysis
 
-<p align="center">
-  <img src="docs/result/result/dapg_recall_latency.png" width="600">
-</p>
+<table>
+  <tr>
+    <td align="center">
+      <img src="docs/result/result/dapg_recall_latency.png" width="100%"><br>
+      <b>Recall and Query Time</b>
+    </td>
+    <td align="center">
+      <img src="docs/result/result/dapg_indexing_pruning.png" width="100%"><br>
+      <b>Indexing and Pruning</b>
+    </td>
+    <td align="center">
+      <img src="docs/result/result/dapg_comparison.png" width="100%"><br>
+      <b>Overall Comparison</b>
+    </td>
+  </tr>
+</table>
 
 <p align="center">
   <b>Figure:</b> Recall and query-time comparison between DAPG and reproduced LSH-APG across different `ef` and `k` settings.
 </p>
+
+
+
+
 ## Research Project Directory Structure
 
 ```
