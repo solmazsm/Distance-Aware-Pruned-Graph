@@ -356,14 +356,59 @@ with reduced average degree while preserving reachability.
 - **Dynamic updates** → amortized `O(d C_Q)` maintenance  
 
 
-| **Dataset** | **Recall@10** | **Query Time (ms)** | **Improvement vs LSH-APG** |
-|--------------|---------------|---------------------|-----------------------------|
-| **DEEP1M** | 0.9632 vs 0.9590 | 2.30 vs 3.43 | +0.44 % recall  /  32.9 % faster |
-| **MNIST** | 0.9984 vs 0.9972 | 0.56 vs 0.68 | +0.12 % recall  /  17.9 % faster |
-| **SIFT1M** | 0.9870 vs 0.9580 | 0.83 vs 2.42 | +3.34 % recall  /  2.9× faster |
 
-> DAPG achieves higher recall **and** lower latency on every dataset.
+## Evaluation Results
 
+### Performance Comparison between Reproduced LSH-APG and DAPG
+
+| Metric | DEEP1M LSH-APG | DEEP1M DAPG | MNIST LSH-APG | MNIST DAPG | SIFT1M LSH-APG | SIFT1M DAPG |
+|---|---:|---:|---:|---:|---:|---:|
+| Recall | 0.9590 | **0.9632 ± 0.0057** | 0.9972 | **0.9984 ± 0.0010** | 0.9580 | **0.9870 ± 0.0025** |
+| Query Time (ms) | 3.43 | **2.30 ± 0.20** | 0.682 | **0.560 ± 0.29** | 2.42 | **0.83 ± 0.00** |
+| Index Size (MB) | 250 | 449 | 10 | 27.77 | 468 | **455** |
+| Indexing Time (s) | 230.1 | **98.3–121.5** | 6.4 | **3.2–4.5** | 105 | **70–103** |
+| Pruning Rate | 0.267 | **0.30–0.32** | 0.410 | **0.50–0.53** | 0.210 | **0.54–0.55** |
+
+### Improvement over LSH-APG
+
+| Dataset | Recall Improvement | Query-Time Improvement |
+|---|---:|---:|
+| DEEP1M | **+0.44%** | **32.9% faster** |
+| MNIST | **+0.12%** | **17.9% faster** |
+| SIFT1M | **+3.34%** | **65.6% faster** |
+
+> DAPG consistently improves recall and reduces query latency compared with reproduced LSH-APG across DEEP1M, MNIST, and SIFT1M. DAPG also achieves higher pruning rates, indicating more effective distance-aware pruning and sparser graph construction.
+
+---
+
+### Fixed-`k` Comparison at `k = 50`
+
+| Dataset | Method | Recall@10 | Query Time (ms) |
+|---|---|---:|---:|
+| DEEP1M | LSH-APG | 0.9590 | 3.43 |
+| DEEP1M | **DAPG (Ours)** | **0.9615** | **2.30** |
+| MNIST | LSH-APG | 0.9972 | 0.682 |
+| MNIST | **DAPG (Ours)** | **0.9984** | **0.560** |
+| SIFT1M | LSH-APG | 0.9580 | 2.42 |
+| SIFT1M | **DAPG (Ours)** | **0.9738** | **0.921** |
+
+| Dataset | Recall Improvement | Query-Time Improvement |
+|---|---:|---:|
+| DEEP1M | **+0.26%** | **32.9% faster** |
+| MNIST | **+0.12%** | **17.9% faster** |
+| SIFT1M | **+1.65%** | **62.0% faster** |
+
+> At the fixed-`k = 50` setting, DAPG maintains higher recall while substantially reducing query time, especially on SIFT1M.
+
+---
+
+### Notes
+
+- DAPG applies distance-aware pruning, producing more effective and sparser graphs.
+- LSH-APG values are reported at `k = 50`.
+- DAPG spans `k = 10–100`.
+- The larger DAPG index size on MNIST is due to denser graph construction.
+- DAPG results at `k = 10` include 12-run mean ± standard deviation.
 
 Performance comparison of DAPG vs. LSH-APG on DEEP1M, MNIST, and SIFT1M.
 DAPG continues to achieve higher recall and lower query latency than LSH-APG across all datasets, demonstrating consistent scalability and efficiency gains at larger neighborhood sizes.
