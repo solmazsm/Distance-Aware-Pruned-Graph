@@ -2,7 +2,10 @@
 
 # DAPG: Distance-Aware Pruned Graph
 
-## Review artifact. This repository contains the reference implementation of DAPG, a single-layer, geometry-aware ANN index introduced in the paper.
+> **Distance-Aware Pruned Graphs for Accurate and Efficient Approximate Nearest Neighbor Search**  
+> ![Views](https://komarev.com/ghpvc/?username=solmazsm&label=Views&color=blue)
+---
+
 
 
 <p align="center">
@@ -24,7 +27,7 @@
 </p>  
 
 <p align="center">
-   <b>Research Group (HPDIC Lab), University of Washington</b>
+   <b>University of Washington</b>
 </p>
 
 
@@ -462,18 +465,7 @@ Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG
 > **O(d̄<sub>DAPG</sub> β(ℓ))** and achieving consistently higher recall.
 > 
 
-| Feature / Goal | DAPG | LIGS (SIGIR'25) |
-|---|---|---|
-| Core idea | Build an explicit, geometry-aware pruned ANN graph | Simulate a proximity graph implicitly using locality-sensitive hashing buckets |
-| Index structure | Explicit graph | Implicit “pseudo-graph” induced by hash tables |
-| Construction | LSH seeding + distance-aware pruning + adaptive degree control | Build multiple hash tables; treat buckets as fully connected subgraphs |
-| Query traversal | Graph search over pruned neighbors (low redundancy) | Graph-style search by expanding collision sets from buckets |
-| Best use case | High-recall, low-latency ANN retrieval (IR/search pipelines) | Maintenance-heavy workloads where fast insert/delete is critical |
-| Update handling | Supports dynamic maintenance while preserving navigability | Insert/delete via hash table updates (no explicit graph maintenance) |
-| High-recall behavior | Typically more stable and efficient at high recall | Often needs more bucket probes / expansions to reach high recall |
 
-![High recall](https://img.shields.io/badge/high%20recall-0.95%E2%80%930.97-red)
-> **Key takeaway (0.95–0.97 recall):** DAPG maintains lower search latency under dynamic updates, while LIGS and LSH-APG incur higher costs or **are unable to reach the target recall**. The **PSEUDO-DAPG** ablation highlights the importance of DAPG’s pruning logic for efficient high-recall traversal (Figure 7).
 
 
 ## HNSW vs. LSH-APG vs. DAPG
