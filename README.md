@@ -200,6 +200,32 @@ This runs DAPG index construction and search on the `sift` dataset.
 | **DAPG (Ours)** | Batch + Dynamic | LSH-seeded graph with local percentile pruning and localized insert/delete maintenance. |
 
 
+
+## Complexity and Efficiency Comparison
+
+> **Lemma 3**, supported by **Lemma 2**, shows that DAPG achieves expected query complexity  
+> **O(d̄<sub>DAPG</sub> β(ℓ))**, where the average degree is bounded by  
+> **d̄<sub>DAPG</sub> ≤ min{p d̄<sub>LSH</sub>, T′}**.
+
+DAPG improves efficiency by combining local percentile pruning with adaptive global sparsification. This reduces redundant edges, preserves graph reachability, and lowers traversal cost.
+
+| Method | Build Complexity | Query Complexity | Notes |
+|:-------|:----------------:|:----------------:|:------|
+| HNSW | Õ(n log n · d̄<sub>HNSW</sub>) | O(L d̄ β(ℓ)) | Multi-layer graph; higher structural overhead |
+| LSH-APG | O(nd C<sub>Q</sub>) + O(n d̄<sub>LSH</sub>) | O(d̄<sub>LSH</sub> β(ℓ)) | Fixed-degree pruning |
+| **DAPG (Ours)** | O(nd C<sub>Q</sub>) + O(nk log k) + O(n d̄<sub>DAPG</sub>) | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile pruning + adaptive cap T′ |
+
+**Key benefits:**
+
+- Fewer redundant edges → faster traversal
+- Adaptive pruning → lower average degree
+- Single-layer graph → avoids multi-layer structural overhead
+- Localized updates → no full index reconstruction
+- Empirically: up to **2.9× faster** and **3.3% higher recall**
+>
+> ---
+## EVALUATIONS
+
 ## Datasets
 
 We support and have tested DAPG on:
@@ -234,7 +260,7 @@ To use your dataset:
 
 A sample dataset (e.g., `audio.data_new`) is already provided.
 
-## EVALUATIONS
+
 
 ## Dataset-Dependent Pruning Behavior
 
@@ -351,28 +377,6 @@ algName encodes the pruning threshold (e.g., DAP_k10_th80)
 Seed and environment are printed at the top for determinism.
 
 
-
-## Complexity and Efficiency Comparison
-
-> **Lemma 3**, supported by **Lemma 2**, shows that DAPG achieves expected query complexity  
-> **O(d̄<sub>DAPG</sub> β(ℓ))**, where the average degree is bounded by  
-> **d̄<sub>DAPG</sub> ≤ min{p d̄<sub>LSH</sub>, T′}**.
-
-DAPG improves efficiency by combining local percentile pruning with adaptive global sparsification. This reduces redundant edges, preserves graph reachability, and lowers traversal cost.
-
-| Method | Build Complexity | Query Complexity | Notes |
-|:-------|:----------------:|:----------------:|:------|
-| HNSW | Õ(n log n · d̄<sub>HNSW</sub>) | O(L d̄ β(ℓ)) | Multi-layer graph; higher structural overhead |
-| LSH-APG | O(nd C<sub>Q</sub>) + O(n d̄<sub>LSH</sub>) | O(d̄<sub>LSH</sub> β(ℓ)) | Fixed-degree pruning |
-| **DAPG (Ours)** | O(nd C<sub>Q</sub>) + O(nk log k) + O(n d̄<sub>DAPG</sub>) | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile pruning + adaptive cap T′ |
-
-**Key benefits:**
-
-- Fewer redundant edges → faster traversal
-- Adaptive pruning → lower average degree
-- Single-layer graph → avoids multi-layer structural overhead
-- Localized updates → no full index reconstruction
-- Empirically: up to **2.9× faster** and **3.3% higher recall**
 
 ## Results
 
