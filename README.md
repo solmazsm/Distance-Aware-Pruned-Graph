@@ -185,7 +185,7 @@ We support and have tested DAPG on:
 - [Deep1M](https://www.cse.cuhk.edu.hk/systems/hash/gqr/dataset/deep1M.tar.gz)
 - [MNIST](http://yann.lecun.com/exdb/mnist/)
 - [SIFT100M](http://corpus-texmex.irisa.fr/)
-- [m_cc_news](https://huggingface.co/datasets/intfloat/multilingual_cc_news)
+- [Text2Image1M](https://research.yandex.com/datasets)
 
 
 Convert these into the `.data_new` format for compatibility.
