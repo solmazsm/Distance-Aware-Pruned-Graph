@@ -224,10 +224,16 @@ This enables the algorithm to preserve essential connectivity on high-LID or het
 | **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Medium** |
 | **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale               | **Smaller** |
 
-| Text Dataset  | Similarity |  d  |
-|--------------|------------|-----|
-| **m_cc_news** | ℓ₂         | 384 |
           
+| ANN Dataset | Geometry | LID | Effect on Local Threshold τᵢ | Graph Size |
+|---|---|---:|---|---|
+| **Audio** | Uniform MFCC neighborhoods | 21.5 | Stable distances → stable τᵢ → consistent pruning | **Small** |
+| **MNIST** | Pixel manifold; clustered | 12.7 | Very small τᵢ → strong pruning | **Small** |
+| **Deep1M** | Heterogeneous, cosine-based | 26.0 | Wide distance spread → large τᵢ → keep more edges | **Larger** |
+| **SIFT1M** | Smooth ℓ₂ structure | 12.9 | Small–medium τᵢ → remove redundant neighbors | **Medium** |
+| **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale | **Smaller** |
+| **Text2Image1M** | CLIP-like text–image embedding space; highly heterogeneous | 8.4† | Low intrinsic dimension but cosine-based multimodal distances → adaptive τᵢ avoids over-pruning useful cross-modal edges | **Medium/Larger** |
+
 
 ## System Setup
 
