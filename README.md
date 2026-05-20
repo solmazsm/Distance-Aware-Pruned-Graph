@@ -175,7 +175,31 @@ This runs DAPG index construction and search on the `sift` dataset.
 -  Sparsity Control: Limits node degree while preserving connectivity in sparse regions.
 -  Improved Recall–Latency Tradeoff: Reduces query time without degrading recall.
 -  Compatible with ANN frameworks.
-  
+
+
+  | Component / Feature | HNSW | LSH-APG | DAPG (Ours) |
+|---|---|---|---|
+| Graph structure | Multi-layer hierarchical proximity graph | Single-layer LSH-assisted proximity graph | Single-layer distance-aware pruned graph |
+| Entry point | Entry point from upper graph layers | LSH-selected entry candidates | LSH-selected seed set with collision-aware multi-start |
+| Neighbor selection | Heuristic neighbor selection with degree parameter `M` | LSH-assisted neighbor selection with pruning conditions | Node-local percentile threshold `τᵢ` with global cap `T′` |
+| Pruning rule | Heuristic pruning to limit degree and preserve diversity | LSH-based pruning with fixed/global degree control | Local distance-aware pruning using node-specific thresholds |
+| Adaptivity to density | Limited through heuristic neighbor selection | Limited because pruning is mainly global/static | High because `τᵢ` adapts to local distance distributions |
+| Search algorithm | Greedy/best-first traversal with `efSearch` | LSH-seeded graph traversal on APG | LSH-seeded best-first traversal on the DAPG-pruned graph |
+| Degree control | Controlled by `M` and `M_max` | Controlled by global caps and pruning conditions | Controlled by local percentile pruning and global cap `T′` |
+| Index size | Higher due to multiple layers | Moderate | Similar to or lower than LSH-APG due to fewer redundant edges |
+| Memory usage | Higher due to hierarchical layers | Lower than multi-layer graph methods | Similar to or lower than LSH-APG |
+| Parameters exposed | `M`, `M_max`, `efConstruction`, `efSearch` | `K`, `L`, `T`, `T′`, `p`, `W` | `p`, `T′`, LSH parameters, seed size `s`, and query budget `ef` |
+| Navigability | Hierarchical small-world routing | Single-layer LSH-assisted traversal | Single-layer traversal with density-aware sparsification |
+| Tuning sensitivity | Moderate | High because global parameters must be tuned | Lower because local thresholds adapt to neighborhood scale |
+| Dense regions | May retain redundant local links | May over-connect or prune uniformly | Removes redundant dense-region edges using local thresholds |
+| Sparse regions | Hierarchy can help long-range routing | May under-connect due to global pruning | Preserves broader connectivity through adaptive thresholds |
+| Dynamic updates | Incremental insertion supported | Insert/delete maintenance supported | Localized insert/delete maintenance without full rebuilds |                                                                   |
+| Method | Mode | Key point |
+| **HNSW** | Incremental | Multi-layer graph with heuristic neighbor selection; high recall but higher memory. |
+| **LSH-APG** | Incremental | LSH-assisted APG construction with update support; efficient but uses fixed/global pruning. |
+| **DAPG (Ours)** | Batch + Dynamic | LSH-seeded graph with local percentile pruning and localized insert/delete maintenance. |
+
+
 ## Datasets
 
 We support and have tested DAPG on:
@@ -211,29 +235,21 @@ To use your dataset:
 A sample dataset (e.g., `audio.data_new`) is already provided.
 
 ## EVALUATIONS
-### Dataset Geometry and Its Effect on DAPG's Pruning Threshold
 
-DAPG adapts its pruning threshold to each node’s local neighborhood distance distribution, enabling enhanced pruning selectivity on low-LID datasets and more conservative edge retention on high-LID datasets.
-This enables the algorithm to preserve essential connectivity on high-LID or heterogeneous datasets, while performing significantly stronger sparsification on low-LID datasets. As a result, DAPG simultaneously achieves higher accuracy and more compact graph construction
+## Dataset-Dependent Pruning Behavior
 
-| ANN Datasets |  Geometry            | LID | Effect on Local Threshold τᵢ                                            | Graph Size |
-|--------------|----------------------------------|-----|-------------------------------------------------------------|-----------------------|
-| **Audio**    | Uniform MFCC neighborhoods       | 21.5 | Stable distances → stable τᵢ → consistent pruning           | **Small** |
-| **MNIST**    | Pixel manifold; clustered        | 12.7 | Very small τᵢ → strong pruning                              | **Small** |
-| **Deep1M**   | Heterogeneous, cosine-based      | 26.0 | Wide distance spread → large τᵢ → keep more edges           | **Larger** |
-| **SIFT1M**   | Smooth ℓ₂ structure               | 12.9 | Small–medium τᵢ → remove redundant neighbors                | **Medium** |
-| **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale               | **Smaller** |
+DAPG adapts each node’s pruning threshold `τᵢ` based on its local distance distribution. Compact, low-LID regions allow effective sparsification, while high-LID or heterogeneous regions require more conservative edge retention to preserve connectivity.
 
-          
-| ANN Dataset | Geometry | LID | Effect on Local Threshold τᵢ | Graph Size |
+| Dataset | Geometry | LID | Pruning Behavior | Graph Size |
 |---|---|---:|---|---|
-| **Audio** | Uniform MFCC neighborhoods | 21.5 | Stable distances → stable τᵢ → consistent pruning | **Small** |
-| **MNIST** | Pixel manifold; clustered | 12.7 | Very small τᵢ → strong pruning | **Small** |
-| **Deep1M** | Heterogeneous, cosine-based | 26.0 | Wide distance spread → large τᵢ → keep more edges | **Larger** |
-| **SIFT1M** | Smooth ℓ₂ structure | 12.9 | Small–medium τᵢ → remove redundant neighbors | **Medium** |
-| **SIFT100M** | Smooth ℓ₂ structure, large scale | 23.7 | Moderate τᵢ → effective pruning even at scale | **Smaller** |
-| **Text2Image1M** | CLIP-like text–image embedding space; highly heterogeneous | 8.4† | Low intrinsic dimension but cosine-based multimodal distances → adaptive τᵢ avoids over-pruning useful cross-modal edges | **Medium/Larger** |
+| **Audio** | Uniform MFCC neighborhoods | 21.5 | Stable thresholds; consistent pruning | **Small** |
+| **MNIST** | Clustered pixel manifold | 12.7 | Effective sparsification | **Small** |
+| **Deep1M** | Heterogeneous cosine space | 26.0 | Conservative pruning | **Larger** |
+| **SIFT1M** | Smooth L2 structure | 12.9 | Balanced pruning | **Medium** |
+| **SIFT100M** | Large-scale smooth L2 structure | 23.7 | Effective pruning at scale | **Smaller** |
+| **Text2Image1M** | Multimodal cosine space | 8.4† | Adaptive retention of cross-modal edges | **Medium/Larger** |
 
+†The LID value for Text2Image1M is estimated on the available one-million-vector subset. 
 
 ## System Setup
 
@@ -335,38 +351,30 @@ algName encodes the pruning threshold (e.g., DAP_k10_th80)
 Seed and environment are printed at the top for determinism.
 
 
+
 ## Complexity and Efficiency Comparison
 
-> **Lemma 3** (supported by **Lemma 2**) proves that DAPG achieves sublinear query complexity  
-> **O(d̄<sub>DAPG</sub> β(ℓ))** with bounded degree and probabilistic connectivity,  
-> ensuring both **efficiency** and **graph connectivity**.
+> **Lemma 3**, supported by **Lemma 2**, shows that DAPG achieves expected query complexity  
+> **O(d̄<sub>DAPG</sub> β(ℓ))**, where the average degree is bounded by  
+> **d̄<sub>DAPG</sub> ≤ min{p d̄<sub>LSH</sub>, T′}**.
 
-
-**DAPG** achieves lower query complexity and higher efficiency than LSH-APG and HNSW-style baselines.  
-Its percentile-based local filtering and adaptive global sparsification yield a *degree-adaptive graph*
-with reduced average degree while preserving reachability.
-
-- **Build:** 𝒪̃(n d̄_seed) → d̄_DAPG 𝒪(d̄_DAPG β(ℓ))  
-- **Query:** 𝒪(d C_Q) amortized per query  
-- **No multi-layer structure** → smaller memory footprint and lower update cost  
-- **Empirical:** up to **2.9× faster** and **+3.3 % higher recall** than LSH-APG
-
+DAPG improves efficiency by combining local percentile pruning with adaptive global sparsification. This reduces redundant edges, preserves graph reachability, and lowers traversal cost.
 
 | Method | Build Complexity | Query Complexity | Notes |
 |:-------|:----------------:|:----------------:|:------|
-| HNSW | Õ(n d) | O(L d̄ β(ℓ)) | Multi-layer; log n levels |
-| LSH-APG | Õ(n d) | O(d̄ β(ℓ)) | Fixed-degree pruning |
-| **DAPG (Ours)** | Õ(n d<sub>seed</sub>) → d̄<sub>DAPG</sub> | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile + cap T′ |
+| HNSW | Õ(n log n · d̄<sub>HNSW</sub>) | O(L d̄ β(ℓ)) | Multi-layer graph; higher structural overhead |
+| LSH-APG | O(nd C<sub>Q</sub>) + O(n d̄<sub>LSH</sub>) | O(d̄<sub>LSH</sub> β(ℓ)) | Fixed-degree pruning |
+| **DAPG (Ours)** | O(nd C<sub>Q</sub>) + O(nk log k) + O(n d̄<sub>DAPG</sub>) | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile pruning + adaptive cap T′ |
 
+**Key benefits:**
 
-- **Fewer edges per node** → less traversal per query  
-- **Adaptive pruning** → lower redundancy  
-- **Single-layer design** → reduced memory vs. multi-layer HNSW  
-- **Dynamic updates** → amortized `O(d C_Q)` maintenance  
+- Fewer redundant edges → faster traversal
+- Adaptive pruning → lower average degree
+- Single-layer graph → avoids multi-layer structural overhead
+- Localized updates → no full index reconstruction
+- Empirically: up to **2.9× faster** and **3.3% higher recall**
 
-
-
-## Evaluation Results
+## Results
 
 ### Performance Comparison between Reproduced LSH-APG and DAPG
 
@@ -411,8 +419,6 @@ with reduced average degree while preserving reachability.
 
 ---
 
-### Notes
-
 - DAPG applies distance-aware pruning, producing more effective and sparser graphs.
 - LSH-APG values are reported at `k = 50`.
 - DAPG spans `k = 10–100`.
@@ -454,67 +460,6 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 </tr>
 </table>
 
-## Comparison
-
-| **Aspect** | **LSH-APG** | **DAPG (Ours)** | **Outcome** |
-|:--|:--|:--|:--|
-| **Query Complexity** | `O(d β(ℓ))` | **O(d̄<sub>DAPG</sub> β(ℓ)) ≈ O(d C<sub>Q</sub>)** | Same asymptotic form but smaller constant |
-| **Degree Control** | Fixed (no adaptivity) | **Adaptive via percentile P<sub>local</sub> + global cap P<sub>global</sub>** | Controllable sparsity |
-| **Update Cost** | Rebuild required | **Incremental O(d C<sub>Q</sub>)** (amortized) | dynamic updates |
-| **Proof Coverage** | Heuristic | **Formal bounds on reachability & connectivity** | Theoretical Analysis |
-
-
-Compared to existing ANN frameworks such as HNSW, NSG, DB-LSH, and LSH-APG, DAPG provides the only single-layer hybrid structure with both a formally proven expected query complexity and a probabilistic connectivity guarantee, ensuring sublinear query cost and robust reachability under adaptive sparsification.
-> DAPG reduces index memory by up to **10×** compared to HNSW and NSG on SIFT100M, while maintaining comparable build time.  
->  
-> **DAPG demonstrates higher efficiency** than prior ANN frameworks, reducing query latency by up to **2.9×**, lowering memory footprint by up to **10×**, and maintaining comparable build cost, while preserving the same theoretical complexity  
-> **O(d̄<sub>DAPG</sub> β(ℓ))** and achieving consistently higher recall.
-> 
-
-
-
-
-## HNSW vs. LSH-APG vs. DAPG
-
-
-| Component / Feature       | HNSW                                          | LSH-APG                                         | DAPG (Ours)                                                        |
-|---------------------------|-----------------------------------------------|-------------------------------------------------|--------------------------------------------------------------------|
-| Graph structure           | Multi-layer hierarchical graph                | Single-layer pruned proximity graph             | Single-layer adaptive proximity graph                               |
-| Entry point               | Highest layer entry point                     | LSH-selected candidate neighbors                | LSH-selected neighbors + adaptive refinement                        |
-| Neighbor selection        | Heuristic: keep closest M                     | Global pruning using T, T′ and p                | Node-wise percentile threshold τᵢ + optional T′                     |
-| Pruning rule              | Heuristic prune to limit degree               | Global: p = 95% threshold, fixed cap T′         | Local: percentile τᵢ based on distance distribution                 |
-| Adaptivity to density     | Partial (through heuristic)                   | None                                            | Strong (τᵢ depends on local density)                                |
-| Search algorithm          | Greedy + efSearch priority queue              | LSH-seeded greedy/best-first on APG graph       | LSH-seeded greedy/best-first on DAPG-pruned graph (Alg. 5)         |
-| Construction complexity   | Ō(n d̂) (incremental; ≈ Ō(M log N) per insertion)  | Ō(n d_seed) (batch) | Ō(n d_seed) → d̂_DAPG (batch, adaptive) |
-| Degree control            | Controlled by M, M_max                        | Strict global caps T, T′                         | Local adaptive τᵢ + optional global cap                             |
-| Index size                | Higher (multiple layers)                      | Moderate                                         | More balanced degrees                           |
-| Memory usage              | Higher due to layers                          | Lower                                            | Similar to LSH-APG                                                  |
-| Parameters exposed        | M, M_max, efConstruction, efSearch            | K, L, T, T′, p, W                                | + local_percentile; more sparsity-control flexibility                |
-| Navigability              | hierarchical small-world                      | single-layer                                      | More uniform due to adaptive sparsification                 |
-| Sensitivity to tuning     | Moderate                                      | High (global p, T, T′ must be tuned)            | Lower (τᵢ adapts automatically to dataset)                          |
-| Dense regions            | Many neighbors pruned by heuristic            | Over-pruned due to global rule                   | Preserves more neighbors (τᵢ chosen from local distribution)        |
-| Sparse areas             | Few connections, but hierarchy helps          | over-prune                                       | Keeps edges (τᵢ expands for sparse nodes)                           |
-
-##  Mapping DAPG Features
-| Feature                      | LSH-APG | DAPG (Ours)                            | Algorithm(s) in Paper |
-|-----------------------------|---------|--------------------------------------------|------------------------|
-| Batch initial construction  | Yes     | Yes                                        | Alg. 1 or Alg. 2       |
-| Adaptive local pruning (τᵢ) | No      | Yes (percentile pruning)                   | Alg. 3 (P_local)       |
-| Global + local hybrid prune | No      | Yes (τᵢ + T′ refinement)                    | Alg. 3 + Alg. 4        |
-| Better balancing of degrees | No      | Yes (local τᵢ + global T′)                | Alg. 3 + Alg. 4        |
-| More stable search cost     | No      | Yes (bounded degree from pruning)          | Alg. 3 + Alg. 4        |
-| Search procedure            | LSH-seeded greedy/best-first on APG graph    | Greedy Best-First Search (improved graph)  | Alg. 5 (DAPG-Query)    |
-| Dynamic update              | No      | **Yes (Dynamic update algorithm)**     | **Alg. 6 (Update)**    |
-| Pruned graph construction   | Yes     | Yes, but adaptive and two-stage            | Alg. 1 or Alg. 2       |
-
-| Algorithm        | Category            | Notes                                                                                   |
-|------------------|---------------------|-----------------------------------------------------------------------------------------|
-| **HNSW**         | Incremental         | Requires hierarchical layers and higher memory, limiting scalability for large dynamic datasets  |
-| **LSH-APG**      | Batch               | Single-phase construction with no support for dynamic graph maintenance                |
-| **DAPG (Ours)** | **Batch + Dynamic** | Batch construction with efficient dynamic updates through locality-aware pruning |
-
-
-## Key Result:
 
 ## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
 ### 1. Lightweight (memory-efficient)
