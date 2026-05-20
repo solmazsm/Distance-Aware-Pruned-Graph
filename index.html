@@ -239,36 +239,40 @@
     <div class="section">
       <h2>Contributions</h2>
 
-      <table>
-        <tr>
-          <th>Contribution</th>
-          <th>Description</th>
-        </tr>
-        <tr>
-          <td><strong>1. Theory</strong></td>
-          <td>
-            Formalizes distance-aware pruning and adaptive degree control in proximity graphs.
-          </td>
-        </tr>
-        <tr>
-          <td><strong>2. Method</strong></td>
-          <td>
-            Introduces local percentile filtering and global capping for degree-adaptive graphs.
-          </td>
-        </tr>
-        <tr>
-          <td><strong>3. Empirics</strong></td>
-          <td>
-            Outperforms LSH-APG across DEEP1M, MNIST, and SIFT1M.
-          </td>
-        </tr>
-        <tr>
-          <td><strong>4. Guidance</strong></td>
-          <td>
-            Provides design rules for local and global pruning rates under dynamic insertions.
-          </td>
-        </tr>
-      </table>
+     <table>
+  <tr>
+    <th>Contribution</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><strong>1. Distance-Aware Pruning</strong></td>
+    <td>
+      Introduces node-local percentile thresholds and global sparsification
+      to build degree-adaptive proximity graphs.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>2. Topology-Aware Query Processing</strong></td>
+    <td>
+      Uses LSH-seeded best-first traversal with collision-aware multi-start
+      initialization to reduce redundant expansions.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>3. Dynamic Maintenance</strong></td>
+    <td>
+      Supports localized insert/delete updates by reapplying pruning only to
+      affected neighborhoods, avoiding full rebuilds.
+    </td>
+  </tr>
+  <tr>
+    <td><strong>4. Empirical Evaluation</strong></td>
+    <td>
+      Demonstrates improved recall-latency trade-offs over LSH-APG and
+      competitive performance against graph-based ANN baselines.
+    </td>
+  </tr>
+</table>
     </div>
 
     <div class="section">
