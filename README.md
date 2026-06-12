@@ -409,39 +409,6 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 
 ---
 
-## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
-### 1. Lightweight (memory-efficient)
-> Figure 8 (Index Size):
-> DAPG is much smaller on MNIST and SIFT100M, meaning the pruning is effective.
-> Figure 8 (Indexing Time):
-> DAPG builds faster than HNSW, NSG, and HCNNG, and is faster than LSH-APG on large datasets (DEEP1M, SIFT100M).
-> This confirms that two-stage pruning does not increase construction overhead.
- ### 2. Efficient (fast query + fast build)
-> Fast query: 
-> **Figure 11 (SIFT100M)** demonstrates that DAPG achieves the lowest query latency (≈1.0–1.4 ms) and the highest recall across all k, outperforming all state-of-the-art ANN baselines.
-
-
-> Fast build: Figure 8 shows that DAPG achieves faster index construction than hierarchical and refinement-based ANN methods, and consistently outperforms LSH-APG on large datasets (DEEP1M and SIFT100M).
-
-
-> Query Time (DEEP1M):
-> **Figure 10** and **Table 5 (Comparison of DAPG and fastG on DEEP1M)**,  
-> **DAPG reduces query latency from ~3.4 ms (LSH-APG / fastG) to as low as ~1.3–1.5 ms, providing more than a 2× speedup while also achieving higher recall.**
-
-### 3. Dynamically maintainable
-
-> **Key Distinction: DAPG vs. LSH-APG**
->
-> LSH-APG applies a fixed global degree cap **T′** in its construction procedure (Alg. 2), imposing a uniform degree bound that does not adapt to local geometric or statistical variation in the dataset.  
->  
-> In contrast, **DAPG** derives a *node-wise*, data-adaptive threshold  
-> τᵢ = Percentile_p { δ(vᵢ, vⱼ) ∣ vⱼ ∈ N(vᵢ) } 
-> via the **LocalPrune** and **GlobalPrune** operators (Algs. 3–4), and uses this mechanism consistently throughout **DAPG-Index-Construction** (Algs. 1–2), **DAPG-Query** (Alg. 5), and **DAPG-Update** (Alg. 6).  
->  
-> Because τᵢ is data-adaptive, DAPG preserves structurally essential neighbors in **high-LID** neighborhoods while performing strong sparsification on **low-LID** neighborhoods, providing higher recall, faster query times, and smaller index sizes than existing APG-based methods, particularly at large scale.
-
-
-
 ## Query Efficiency and Recall
 
 DAPG improves the recall-latency trade-off over LSH-APG across neighborhood budgets and datasets. On **Deep1M**, DAPG achieves comparable or higher recall with lower query time than LSH-APG. On **Audio**, DAPG also reduces latency while preserving high recall.
