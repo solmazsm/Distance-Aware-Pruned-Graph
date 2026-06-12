@@ -1,5 +1,3 @@
- 
-
 # DAPG: Distance-Aware Pruned Graph
 
 > **Distance-Aware Pruning for Efficient Approximate Nearest Neighbor Search over Evolving Data**  
@@ -62,8 +60,6 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 ---
 ## Contributions
 
-## What We Bring
-
 <table>
   <tr>
     <td width="48%" valign="top">
@@ -71,27 +67,27 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 <strong>1) Theory</strong><br>
 Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing sparsity bounds, query-cost analysis, update-cost analysis, and conditional recall-preservation guarantees.
 
-    </td>
-    <td width="48%" valign="top">
+  </td>
+  <td width="48%" valign="top">
 
 <strong>2) Method</strong><br>
 DAPG introduces local percentile filtering (P<sub>local</sub>) and adaptive global capping (P<sub>global</sub>) to construct degree-adaptive graphs that reduce redundant edges while preserving neighborhood connectivity.
 
-    </td>
+  </td>
   </tr>
   <tr>
-    <td width="48%" valign="top">
+  <td width="48%" valign="top">
 
 <strong>3) Empirics</strong><br>
 Evaluates DAPG on six datasets against representative static and update-aware ANN baselines, showing up to 3.3% higher recall and up to 2.9&times; lower query time.
 
-    </td>
-    <td width="48%" valign="top">
+  </td>
+  <td width="48%" valign="top">
 
 <strong>4) Updates</strong><br>
 Supports localized insert/delete maintenance by reapplying pruning only to affected hash buckets, candidate neighborhoods, and adjacency lists, avoiding full-index reconstruction.
 
-    </td>
+  </td>
   </tr>
 </table>
 
