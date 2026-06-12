@@ -199,42 +199,43 @@
       </p>
     </div>
 
-    <div class="section">
-      <h2>Why This Work</h2>
-<div class="counter-box">
-  <span>Page Visits</span>
-  <img 
-    src="https://hits.sh/solmazsm.github.io/Distance-Aware-Pruned-Graph.svg?label=visitors&color=2563eb&labelColor=111827" 
-    alt="Visitor counter">
-</div>
-      <table>
-        <tr>
-          <th>Common gaps in existing ANN methods</th>
-          <th>How DAPG addresses these</th>
-        </tr>
-        <tr>
-          <td><strong>Fixed-degree graphs:</strong> Static degree limits prevent adaptive sparsification.</td>
-          <td><strong>Adaptive sparsity:</strong> Percentile-based filtering and global capping balance recall and cost.</td>
-        </tr>
-        <tr>
-          <td><strong>Costly rebuilds:</strong> Traditional structures require full index reconstruction.</td>
-          <td><strong>Incremental updates:</strong> Supports amortized insertion with bounded rewire cost.</td>
-        </tr>
-        <tr>
-          <td><strong>Uncontrolled expansion:</strong> Greedy traversal expands redundant nodes.</td>
-          <td><strong>Pruned search:</strong> Expansion is capped by β(ℓ), improving efficiency.</td>
-        </tr>
-        <tr>
-          <td><strong>Weak theoretical link:</strong> Prior heuristics lack formal complexity bounds.</td>
-          <td><strong>Theory-backed:</strong> DAPG gives sublinear query complexity and bounded connectivity.</td>
-        </tr>
-      </table>
+   <div class="section">
+  <h2>Why This Work</h2>
 
-      <blockquote>
-        DAPG achieves higher recall, lower query latency, and reduced memory footprint
-        while preserving theoretical query complexity.
-      </blockquote>
-    </div>
+  <div class="counter-box">
+    <span>Page Visits</span>
+    <img 
+      src="https://hits.sh/solmazsm.github.io/Distance-Aware-Pruned-Graph.svg?label=visitors&color=2563eb&labelColor=111827" 
+      alt="Visitor counter">
+  </div>
+
+  <table>
+    <tr>
+      <th>Common gaps in existing ANN methods</th>
+      <th>How DAPG addresses them</th>
+    </tr>
+    <tr>
+      <td><strong>Fixed-degree graphs:</strong> Static degree limits prevent density-aware sparsification.</td>
+      <td><strong>Adaptive sparsity:</strong> Local percentile filtering and global capping balance recall and cost.</td>
+    </tr>
+    <tr>
+      <td><strong>Costly rebuilds:</strong> Traditional structures often require expensive repair or reconstruction under updates.</td>
+      <td><strong>Localized updates:</strong> Insertions and deletions reapply pruning only to affected neighborhoods.</td>
+    </tr>
+    <tr>
+      <td><strong>Uncontrolled expansion:</strong> Greedy traversal may expand redundant nodes.</td>
+      <td><strong>Pruned search:</strong> Traversal operates on a sparse, degree-controlled graph.</td>
+    </tr>
+    <tr>
+      <td><strong>Weak theoretical support:</strong> Prior heuristics often lack formal sparsity, query-cost, and recall-preservation analysis.</td>
+      <td><strong>Theory-backed design:</strong> DAPG provides sparsity bounds, query-cost analysis, and conditional recall-preservation guarantees.</td>
+    </tr>
+  </table>
+
+  <blockquote>
+    DAPG improves the recall-latency trade-off, achieving up to <strong>3.3% higher recall</strong> and up to <strong>2.9&times; lower query time</strong>, while supporting localized update maintenance.
+  </blockquote>
+</div>
 
     <div class="section">
       <h2>Contributions</h2>
