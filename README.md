@@ -444,53 +444,31 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 
 ## Query Efficiency and Recall
 
-As shown in **Figure 1**, DAPG consistently achieves lower query latency than LSH-APG across all evaluated datasets, while maintaining comparable or higher recall.
+DAPG improves the recall-latency trade-off over LSH-APG across neighborhood budgets and datasets. On **Deep1M**, DAPG achieves comparable or higher recall with lower query time than LSH-APG. On **Audio**, DAPG also reduces latency while preserving high recall.
 
-On **Deep1M** with `k = 100`, DAPG achieves a recall of **0.961** with a query time of **2.7 ms**, outperforming LSH-APG, which requires **3.43 ms** to reach similar recall.  
-On the **Audio** dataset with `k = 50`, DAPG reaches a recall of **0.9951** in **0.48 ms**, compared to **0.528 ms** for the baseline.
+![Query time and recall vs. ef](docs/result/figures/query_time_and_recall_vs_ef.png)
 
-Marker shapes correspond to different values of `k`, and **red dashed lines indicate baseline (LSH-APG) query times**. Overall, these results demonstrate that DAPG serves as an effective and lightweight refinement strategy, improving graph sparsity and query efficiency.
+[View PDF](docs/result/figures/query_time_and_recall_vs_ef.pdf)
 
-**Figure 1:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/query_time_and_recall_vs_ef.pdf)
+---
 
 ## DAPG vs. LSH-APG Recall-Latency
 
-DAPG consistently improves the recall-latency trade-off over LSH-APG across neighborhood budgets. The best trade-off occurs at \(k=10\), where DAPG reaches approximately 0.971 recall with 1.378 ms query time.
+DAPG consistently improves the recall-latency trade-off over LSH-APG across neighborhood budgets. The best trade-off occurs at **k = 10**, where DAPG reaches approximately **0.971 recall** with **1.378 ms** query time.
 
 ![DAPG vs. LSH-APG recall-latency comparison](docs/result/figures/dap_vs_lshapg_comparison.png)
 
 [View PDF](docs/result/figures/dap_vs_lshapg_comparison.pdf)
 
-## DAPG vs. baselines deep1m and audio
-Figure 3 further highlights DAPG’s strong performance over the baselines on **`Deep1M and Audio`**, achieving the highest recall@10 while also attaining the lowest query time. These results indicate that DAPG preserves high-quality neighbors while constructing sparse, navigable proximity graphs, and that its advantages are especially pronounced on heterogeneous datasets such as **`Audio`**.
+---
 
-**Figure 3:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/dap_vs_baselines_deep1m_audio.pdf)
+## DAPG vs. Baselines on Deep1M and Audio
 
+DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and **Audio**, showing that distance-aware pruning preserves high-quality neighbors while producing sparse, navigable proximity graphs.
 
+![DAPG vs. baselines on Deep1M and Audio](docs/result/figures/dap_vs_baselines_deep1m_audio.png)
 
-### Recall and Query-Time Analysis
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="docs/result/result/dapg_recall_latency.png" width="100%"><br>
-      <b>Recall and Query Time</b>
-    </td>
-    <td align="center">
-      <img src="docs/result/result/dapg_indexing_pruning.png" width="100%"><br>
-      <b>Indexing and Pruning</b>
-    </td>
-    <td align="center">
-      <img src="docs/result/result/dapg_comparison.png" width="100%"><br>
-      <b>Overall Comparison</b>
-    </td>
-  </tr>
-</table>
-
-<p align="center">
-  <b>Figure:</b> Recall and query-time comparison between DAPG and reproduced LSH-APG across different `ef` and `k` settings.
- As shown in Figure~\ref{fig:query_time_and_recall_vs_ef}, DAPG consistently achieves lower query latency than LSH-APG across all datasets, while maintaining comparable or higher recall. On \textsc{Deep1M} at $k{=}100$, DAPG attains a recall of 0.961 with a query time of 2.7\,ms, outperforming LSH-APG’s 3.43\,ms. Similarly, on \textsc{Audio} at $k{=}50$, DAPG reaches a recall of 0.9951 in 0.48\,ms versus 0.528\,ms for the baseline. Marker shapes denote different $k$ values, and red dashed lines indicate baseline query times. These results validate DAPG as an effective, lightweight refinement strategy that improves both graph sparsity and query efficiency.  
-</p>
+[View PDF](docs/result/figures/dap_vs_baselines_deep1m_audio.pdf)
 
 
 
