@@ -48,16 +48,16 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 ---
 ## Why This Work
 
-### What existing ANN methods miss — and how **DAPG** fixes it
+### What existing ANN methods miss and how **DAPG** addresses them
 
-|  Common gaps in existing ANN methods |  How **DAPG** addresses these |
-| :----------------------------------- | :------------------------------ |
-| • **Fixed-degree graphs:** Static degree limits prevent adaptive sparsification. |  **Adaptive sparsity:** percentile-based local filtering and global capping balance recall vs. cost. |
-| • **Costly rebuilds:** Traditional structures require full index reconstruction for new data. |  **Incremental updates:** supports amortized insertion with bounded rewire cost. |
-| • **Uncontrolled expansion:** Greedy traversal often expands redundant nodes. |  **Pruned search:** expansion is capped by β(ℓ), maintaining efficiency. |
-| • **Weak theoretical link:** Prior heuristics lack formal sublinear complexity bounds. |  **Theory-backed:** Lemma 2 prove sublinear query complexity O(d̄<sub>DAPG</sub> β(ℓ)) and bounded connectivity. |
+| Common gaps in existing ANN methods | How **DAPG** addresses them |
+| :---------------------------------- | :--------------------------- |
+| • **Fixed-degree graphs:** Static degree limits prevent density-aware sparsification. | **Adaptive sparsity:** Local percentile filtering and global capping balance recall and cost. |
+| • **Costly rebuilds:** Traditional structures often require expensive repair or reconstruction under updates. | **Localized updates:** Insertions and deletions reapply pruning only to affected neighborhoods. |
+| • **Uncontrolled expansion:** Greedy traversal may expand redundant nodes. | **Pruned search:** Traversal operates on a sparse, degree-controlled graph. |
+| • **Weak theoretical support:** Prior heuristics often lack formal sparsity, query-cost, and recall-preservation analysis. | **Theory-backed design:** DAPG provides sparsity bounds, query-cost analysis, and conditional recall-preservation guarantees. |
 
-> **Result:** Higher recall (+3.3%), 2.9× lower query latency, and up to 10× smaller memory footprint—while preserving the same O(d̄<sub>DAPG</sub> β(ℓ)) complexity.
+> **Result:** DAPG improves the recall-latency trade-off, achieving up to **3.3% higher recall** and up to **2.9× lower query time**, while supporting localized update maintenance.
 
 ---
 ## Contributions
