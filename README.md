@@ -445,6 +445,22 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 > ---
 
+
+
+
+## Dynamic Maintenance Efficiency
+
+
+1. **Switchable DAPG construction path:** Added a `use_dap_pruning` option. When enabled, `insertLSHRefine()` applies local percentile distance pruning before the final degree-pruning step, while retaining the LSH candidate-seeding and global degree-control baseline path.
+
+2. **Dynamic index maintenance:** Added support for insert/delete workloads. `flagStates` marks active and deleted nodes, `deleteNode()` removes a node from hash tables and affected adjacency lists, and `insertNode()` reactivates a point using the existing LSH-assisted insertion pipeline.
+
+3. **Partial-build controls:** Added controls for sliding-window experiments, allowing the graph to initially index only an active prefix/window and later insert unseen points.
+
+4. **Query traversal variants:** Added ablation variants including pseudo traversal, collision-aware starts, anchor starts, and learned-anchor starts to isolate the effect of entry selection from graph construction.
+
+5. **Dynamic-search safety checks:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
+
 # ANN Index Updates
 
 ## Metrics  
@@ -478,22 +494,6 @@ Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incr
 
 - per-step curves: `step_*/nsg_curve_k100.csv`, `step_*/gate_curve_k100.csv`
 - summary rebuild times: `fifo_summary_K100.csv`
-
-
-## Dynamic Maintenance Efficiency
-
-
-1. **Switchable DAPG construction path:** Added a `use_dap_pruning` option. When enabled, `insertLSHRefine()` applies local percentile distance pruning before the final degree-pruning step, while retaining the LSH candidate-seeding and global degree-control baseline path.
-
-2. **Dynamic index maintenance:** Added support for insert/delete workloads. `flagStates` marks active and deleted nodes, `deleteNode()` removes a node from hash tables and affected adjacency lists, and `insertNode()` reactivates a point using the existing LSH-assisted insertion pipeline.
-
-3. **Partial-build controls:** Added controls for sliding-window experiments, allowing the graph to initially index only an active prefix/window and later insert unseen points.
-
-4. **Query traversal variants:** Added ablation variants including pseudo traversal, collision-aware starts, anchor starts, and learned-anchor starts to isolate the effect of entry selection from graph construction.
-
-5. **Dynamic-search safety checks:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
-
-
 ## Research Project Directory Structure
 
 ```
