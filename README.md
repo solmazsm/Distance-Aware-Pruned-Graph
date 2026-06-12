@@ -395,8 +395,6 @@ Seed and environment are printed at the top for determinism.
 
 DAPG improves recall and reduces query time compared with reproduced LSH-APG across DEEP1M, MNIST, and SIFT1M. It also achieves higher pruning rates, indicating more effective distance-aware pruning.
 
----
-
 - DAPG applies distance-aware pruning, producing more effective and sparser graphs.
 - LSH-APG values are reported at `k = 50`.
 - DAPG spans `k = 10–100`.
@@ -455,13 +453,13 @@ Marker shapes correspond to different values of `k`, and **red dashed lines indi
 
 **Figure 1:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/query_time_and_recall_vs_ef.pdf)
 
-##  DAPG vs. LSH-APG (Recall–Latency)
+## DAPG vs. LSH-APG Recall-Latency
 
-As shown in **Figure 2 `dap_vs_lshapg`**, DAPG consistently outperforms the LSH-APG baseline across all neighborhood budgets (NB).  
-For example, **DAPG_k=10** and **DAPG_k=20** achieve high recall (≈0.971) with substantially lower query times (**1.378 ms** and **1.508 ms**) than **LSH-APG**, which attains lower recall (<0.96) and higher latency (>1.6 ms).  
-Even at larger budgets (**k = 50, 100**), DAPG maintains recall above **0.966** with competitive or improved latency. Overall, the best trade-off occurs at **k = 10**, where DAPG reaches **0.971 recall** at **1.378 ms** query time.
+DAPG consistently improves the recall-latency trade-off over LSH-APG across neighborhood budgets. The best trade-off occurs at \(k=10\), where DAPG reaches approximately 0.971 recall with 1.378 ms query time.
 
-**Figure 2:** [View PDF](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/figures/dap_vs_lshapg_comparison.pdf)
+![DAPG vs. LSH-APG recall-latency comparison](docs/result/figures/dap_vs_lshapg_comparison.png)
+
+[View PDF](docs/result/figures/dap_vs_lshapg_comparison.pdf)
 
 ## DAPG vs. baselines deep1m and audio
 Figure 3 further highlights DAPG’s strong performance over the baselines on **`Deep1M and Audio`**, achieving the highest recall@10 while also attaining the lowest query time. These results indicate that DAPG preserves high-quality neighbors while constructing sparse, navigable proximity graphs, and that its advantages are especially pronounced on heterogeneous datasets such as **`Audio`**.
