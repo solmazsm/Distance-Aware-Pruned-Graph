@@ -63,27 +63,37 @@ DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** basel
 ## Contributions
 
 ## What We Bring
-<table> <tr> <td width="48%" valign="top">
 
-1) Theory
-Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing probabilistic bounds on reachability and connectivity under percentile-based sparsification.
+<table>
+  <tr>
+    <td width="48%" valign="top">
 
-</td> <td width="48%" valign="top">
+<strong>1) Theory</strong><br>
+Formalizes distance-aware pruning and adaptive degree control in proximity graphs, providing sparsity bounds, query-cost analysis, update-cost analysis, and conditional recall-preservation guarantees.
 
-2) Method
-DAPG introduces local percentile filtering (P<sub>local</sub>) and global capping (P<sub>global</sub>) to construct degree-adaptive graphs that minimize redundant edges while maintaining recall.
+    </td>
+    <td width="48%" valign="top">
 
-</td> </tr> <tr> <td width="48%" valign="top">
+<strong>2) Method</strong><br>
+DAPG introduces local percentile filtering (P<sub>local</sub>) and adaptive global capping (P<sub>global</sub>) to construct degree-adaptive graphs that reduce redundant edges while preserving neighborhood connectivity.
 
-3) Empirics
-Outperforms LSH-APG across DEEP1M, MNIST, and SIFT1M, achieving up to +3.3% recall and 2.9× lower query latency, while reducing graph density and index memory.
+    </td>
+  </tr>
+  <tr>
+    <td width="48%" valign="top">
 
-</td> <td width="48%" valign="top">
+<strong>3) Empirics</strong><br>
+Evaluates DAPG on six datasets against representative static and update-aware ANN baselines, showing up to 3.3% higher recall and up to 2.9&times; lower query time.
 
-4) Guidance
-Provides design rules for local/global pruning rates, ensuring consistent recall stability under dynamic insertions and scalable O(d C<sub>Q</sub>) maintenance.
+    </td>
+    <td width="48%" valign="top">
 
-</td> </tr> </table>
+<strong>4) Updates</strong><br>
+Supports localized insert/delete maintenance by reapplying pruning only to affected hash buckets, candidate neighborhoods, and adjacency lists, avoiding full-index reconstruction.
+
+    </td>
+  </tr>
+</table>
 
 
 ## INTRODUCTION
