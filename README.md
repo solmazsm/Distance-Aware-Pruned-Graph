@@ -485,34 +485,34 @@ Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incr
 ## Research Project Directory Structure
 
 ```
+## Research Project Directory Structure
+
+```text
 .
-├── .vscode/                         # VS Code settings
-│
-├── Report/                          # Project report and documentation
-│
+├── .github/                         # GitHub configuration files
+├── Appendix/                        # Appendix materials
 ├── cppCode/
-├── DAPG/
-│   └── Makefile                         # Build configuration
-│   ├── src/                         # Distance-Aware Pruned Graph implementation
-│   │   ├── indexes/                 # Precomputed/saved index statistics
-│   │   │   ├── mnist_all_index_stats.txt
-│   │   │   ├── audio_all_index_stats.txt
-│   │   │
-│   │   ├── divGraph.h               #Modified: Graph structure (updated Source files)
-│   │   ├── dapgalg.h                
-│   │   ├── Preprocess.h            
-│   │   ├── Query.cpp               
-│   │   ├── main.cpp                
-│   │                
-│   │
+│   └── DAPG/
+│       ├── Makefile                 # Build configuration
+│       └── src/                     # DAPG implementation
+│           ├── indexes/             # Saved index/result files
+│           ├── Preprocess.h         # Preprocessing utilities
+│           ├── Query.cpp            # Query processing implementation
+│           ├── Query.h              # Query processing header
+│           ├── dapgalg.h            # DAPG algorithm implementation
+│           ├── divGraph.h           # Graph data structure
+│           └── main.cpp             # Main executable entry point
 ├── docs/
-    └── result/
-│       └── recall_vs_qt_sift100m.pdf
-├── dataset/                         
-├── .gitattributes
-├── .gitignore
+│   └── result/
+│       ├── figures/                 # Result figures
+│       ├── result/                  # Additional result images
+│       ├── _Evaluation_DAPG.ipynb   # Evaluation notebook
+│       └── recall_vs_qt_sift100m... # SIFT100M recall-latency result
+├── dynamic/
+│   └── DAPG-dynamic...              # Dynamic-update experiment scripts/results
 ├── LICENSE
-└── README.md
+├── README.md
+└── index.html                       # Project webpage
              
 ```
 ## Contact
