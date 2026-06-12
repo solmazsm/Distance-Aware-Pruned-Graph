@@ -224,105 +224,106 @@
   </blockquote>
 </div>
 
-    <div class="section">
-      <h2>Contributions</h2>
+   <div class="section">
+  <h2>Contributions</h2>
 
-     <table>
-  <tr>
-    <th>Contribution</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><strong>1. Distance-Aware Pruning</strong></td>
-    <td>
-      Introduces node-local percentile thresholds and global sparsification
-      to build degree-adaptive proximity graphs.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>2. Topology-Aware Query Processing</strong></td>
-    <td>
-      Uses LSH-seeded best-first traversal with collision-aware multi-start
-      initialization to reduce redundant expansions.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>3. Dynamic Maintenance</strong></td>
-    <td>
-      Supports localized insert/delete updates by reapplying pruning only to
-      affected neighborhoods, avoiding full rebuilds.
-    </td>
-  </tr>
-  <tr>
-    <td><strong>4. Empirical Evaluation</strong></td>
-    <td>
-      Demonstrates improved recall-latency trade-offs over LSH-APG and
-      competitive performance against graph-based ANN baselines.
-    </td>
-  </tr>
-</table>
-    </div>
+  <table>
+    <tr>
+      <th>Contribution</th>
+      <th>Description</th>
+    </tr>
+    <tr>
+      <td><strong>1. Distance-Aware Pruning</strong></td>
+      <td>
+        Introduces node-local percentile thresholds and adaptive global sparsification
+        to build degree-adaptive proximity graphs.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>2. LSH-Seeded Graph Construction</strong></td>
+      <td>
+        Uses LSH-based candidate generation to construct a single-layer proximity
+        graph with density-aware edge retention.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>3. Localized Update Maintenance</strong></td>
+      <td>
+        Supports insert/delete updates by reapplying pruning only to affected
+        hash buckets, candidate neighborhoods, and adjacency lists.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>4. Theory and Evaluation</strong></td>
+      <td>
+        Provides sparsity, construction-cost, query-cost, update-cost, and
+        conditional recall-preservation analysis, with experiments on six datasets.
+      </td>
+    </tr>
+  </table>
+</div>
 
-    <div class="section">
-      <h2>What DAPG Adds</h2>
-      <ul>
-        <li>Distance-aware local pruning using percentile thresholds per node.</li>
-        <li>Adaptive global sparsification to cap high-degree tails.</li>
-        <li>Parallel construction with thread-safe updates.</li>
-        <li>Serialization of graph and LSH structures for fast reloads.</li>
-        <li>Dynamic insertion and deletion with degree-stable connectivity.</li>
-      </ul>
-    </div>
+<div class="section">
+  <h2>What DAPG Adds</h2>
+  <ul>
+    <li>Distance-aware local pruning using node-specific percentile thresholds.</li>
+    <li>Adaptive global sparsification to control high-degree nodes.</li>
+    <li>LSH-seeded single-layer graph construction.</li>
+    <li>Localized insert/delete maintenance without full-index reconstruction.</li>
+    <li>Conditional recall-preservation analysis under candidate coverage and connectivity assumptions.</li>
+  </ul>
+</div>
 
-    <div class="section">
-      <h2>Cost Model</h2>
+<div class="section">
+  <h2>Cost Model</h2>
 
-      <pre><code>C_Q = O(d̄_DAPG · β(ℓ))
+  <pre><code>C_Q = O(d̄_DAPG · β(ℓ))
 T_Q = O(d · d̄_DAPG · β(ℓ))
-β(ℓ) = O(log n) under small-world routing</code></pre>
+d̄_DAPG ≤ min{p d̄_LSH, T′}</code></pre>
 
-      <p>
-        The expected query cost factorizes into average degree and expansion depth.
-      </p>
-    </div>
+  <p>
+    The expected query cost factorizes into the final average graph degree
+    and the expected expansion depth needed to reach the query locality basin.
+  </p>
+</div>
 
-    <div class="section">
-      <h2>Compilation</h2>
+<div class="section">
+  <h2>Compilation</h2>
 
-      <h3>Linux</h3>
-      <p>Requires C++11 and OpenMP.</p>
+  <h3>Linux</h3>
+  <p>Requires C++11 and OpenMP.</p>
 
-      <pre><code>cd ./cppCode/DAPG
+  <pre><code>cd ./cppCode/DAPG
 make</code></pre>
 
-      <h3>Windows</h3>
-      <p>
-        Use Visual Studio 2019+ and import the project located in:
-      </p>
+  <h3>Windows</h3>
+  <p>
+    Use Visual Studio 2019+ and import the project located in:
+  </p>
 
-      <pre><code>./cppCode/DAPG/src/</code></pre>
+  <pre><code>./cppCode/DAPG/src/</code></pre>
 
-      <p>
-        Enable OpenMP and C++11 support in the build settings.
-      </p>
-    </div>
+  <p>
+    Enable OpenMP and C++11 support in the build settings.
+  </p>
+</div>
 
-    <div class="section">
-      <h2>Running DAPG</h2>
+<div class="section">
+  <h2>Running DAPG</h2>
 
-      <h3>Command Format</h3>
+  <h3>Command Format</h3>
 
-      <pre><code>./dapg datasetName</code></pre>
+  <pre><code>./dapg datasetName</code></pre>
 
-      <h3>Example</h3>
+  <h3>Example</h3>
 
-      <pre><code>cd ./cppCode/DAPG
+  <pre><code>cd ./cppCode/DAPG
 ./dapg sift</code></pre>
 
-      <p>
-        This runs DAPG index construction and search on the SIFT dataset.
-      </p>
-    </div>
+  <p>
+    This runs DAPG index construction and ANN search on the SIFT dataset.
+  </p>
+</div>
 
     <div class="section">
       <h2>Supported Datasets</h2>
