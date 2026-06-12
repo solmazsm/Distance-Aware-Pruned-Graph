@@ -173,58 +173,50 @@ This runs DAPG index construction and search on the `sift` dataset.
 
 ## Key Features
 
--  Distance-Aware Local Pruning: Adapts edge filtering based on local percentile distances.
--  Sparsity Control: Limits node degree while preserving connectivity in sparse regions.
--  Improved Recall–Latency Tradeoff: Reduces query time without degrading recall.
--  Compatible with ANN frameworks.
+- **Distance-aware local pruning:** Adapts edge retention using node-specific percentile thresholds.
+- **Adaptive sparsification:** Controls high-degree nodes with a global cap while preserving neighborhood connectivity.
+- **LSH-seeded construction:** Builds a single-layer proximity graph from hash-based candidate neighborhoods.
+- **Localized updates:** Supports insertions and deletions without full-index reconstruction.
+- **Recall-latency improvement:** Achieves up to **3.3% higher recall** and up to **2.9× lower query time**.
 
+---
 
-  | Component / Feature | HNSW | LSH-APG | DAPG (Ours) |
+## Method Comparison
+
+| Feature | HNSW | LSH-APG | DAPG |
 |---|---|---|---|
-| Graph structure | Multi-layer hierarchical proximity graph | Single-layer LSH-assisted proximity graph | Single-layer distance-aware pruned graph |
-| Entry point | Entry point from upper graph layers | LSH-selected entry candidates | LSH-selected seed set with collision-aware multi-start |
-| Neighbor selection | Heuristic neighbor selection with degree parameter `M` | LSH-assisted neighbor selection with pruning conditions | Node-local percentile threshold `τᵢ` with global cap `T′` |
-| Pruning rule | Heuristic pruning to limit degree and preserve diversity | LSH-based pruning with fixed/global degree control | Local distance-aware pruning using node-specific thresholds |
-| Adaptivity to density | Limited through heuristic neighbor selection | Limited because pruning is mainly global/static | High because `τᵢ` adapts to local distance distributions |
-| Search algorithm | Greedy/best-first traversal with `efSearch` | LSH-seeded graph traversal on APG | LSH-seeded best-first traversal on the DAPG-pruned graph |
-| Degree control | Controlled by `M` and `M_max` | Controlled by global caps and pruning conditions | Controlled by local percentile pruning and global cap `T′` |
-| Index size | Higher due to multiple layers | Moderate | Similar to or lower than LSH-APG due to fewer redundant edges |
-| Memory usage | Higher due to hierarchical layers | Lower than multi-layer graph methods | Similar to or lower than LSH-APG |
-| Parameters exposed | `M`, `M_max`, `efConstruction`, `efSearch` | `K`, `L`, `T`, `T′`, `p`, `W` | `p`, `T′`, LSH parameters, seed size `s`, and query budget `ef` |
-| Navigability | Hierarchical small-world routing | Single-layer LSH-assisted traversal | Single-layer traversal with density-aware sparsification |
-| Tuning sensitivity | Moderate | High because global parameters must be tuned | Lower because local thresholds adapt to neighborhood scale |
-| Dense regions | May retain redundant local links | May over-connect or prune uniformly | Removes redundant dense-region edges using local thresholds |
-| Sparse regions | Hierarchy can help long-range routing | May under-connect due to global pruning | Preserves broader connectivity through adaptive thresholds |
-| Dynamic updates | Incremental insertion supported | Insert/delete maintenance supported | Localized insert/delete maintenance without full rebuilds |                                                                   |
-| Method | Mode | Key point |
-| **HNSW** | Incremental | Multi-layer graph with heuristic neighbor selection; high recall but higher memory. |
-| **LSH-APG** | Incremental | LSH-assisted APG construction with update support; efficient but uses fixed/global pruning. |
-| **DAPG (Ours)** | Batch + Dynamic | LSH-seeded graph with local percentile pruning and localized insert/delete maintenance. |
+| Graph structure | Multi-layer proximity graph | Single-layer LSH-assisted graph | Single-layer distance-aware pruned graph |
+| Candidate generation | Graph-based traversal | LSH-assisted candidates | LSH-seeded candidate neighborhoods |
+| Pruning rule | Heuristic neighbor selection | Fixed/global degree control | Node-local percentile threshold with global cap |
+| Density adaptivity | Limited | Limited | High, through local distance thresholds |
+| Degree control | `M`, `M_max` | Global caps | Local pruning + adaptive cap `T′` |
+| Dynamic updates | Incremental insertion | Incremental maintenance | Localized insert/delete maintenance |
+| Rebuild requirement | Not always, but repair can be costly | Avoids full rebuild in some settings | Avoids full-index reconstruction through local re-pruning |
 
+---
 
+## Complexity and Efficiency
 
-## Complexity and Efficiency Comparison
+DAPG reduces redundant edges by combining local percentile pruning with adaptive global sparsification. The expected query cost is:
 
-> **Lemma 3**, supported by **Lemma 2**, shows that DAPG achieves expected query complexity  
-> **O(d̄<sub>DAPG</sub> β(ℓ))**, where the average degree is bounded by  
-> **d̄<sub>DAPG</sub> ≤ min{p d̄<sub>LSH</sub>, T′}**.
-
-DAPG improves efficiency by combining local percentile pruning with adaptive global sparsification. This reduces redundant edges, preserves graph reachability, and lowers traversal cost.
+<pre>
+C_Q = O(d̄_DAPG · β(ℓ))
+d̄_DAPG ≤ min{p d̄_LSH, T′}
+</pre>
 
 | Method | Build Complexity | Query Complexity | Notes |
-|:-------|:----------------:|:----------------:|:------|
-| HNSW | Õ(n log n · d̄<sub>HNSW</sub>) | O(L d̄ β(ℓ)) | Multi-layer graph; higher structural overhead |
-| LSH-APG | O(nd C<sub>Q</sub>) + O(n d̄<sub>LSH</sub>) | O(d̄<sub>LSH</sub> β(ℓ)) | Fixed-degree pruning |
-| **DAPG (Ours)** | O(nd C<sub>Q</sub>) + O(nk log k) + O(n d̄<sub>DAPG</sub>) | **O(d̄<sub>DAPG</sub> β(ℓ))** | Local percentile pruning + adaptive cap T′ |
+|:---|:---:|:---:|:---|
+| HNSW | Õ(n log n · d̄_HNSW) | O(d̄ β(ℓ)) | Multi-layer graph |
+| LSH-APG | O(nd C_Q) + O(n d̄_LSH) | O(d̄_LSH β(ℓ)) | Fixed/global pruning |
+| **DAPG** | O(nd C_Q) + O(nk log k) + O(n d̄_DAPG) | **O(d̄_DAPG β(ℓ))** | Local percentile pruning + adaptive cap |
 
 **Key benefits:**
 
-- Fewer redundant edges → faster traversal
-- Adaptive pruning → lower average degree
-- Single-layer graph → avoids multi-layer structural overhead
-- Localized updates → no full index reconstruction
-- Empirically: up to **2.9× faster** and **3.3% higher recall**
->
+- Fewer redundant edges
+- Lower traversal cost
+- Single-layer graph structure
+- Localized insert/delete maintenance
+- Improved recall-latency trade-off
 > ---
 ## EVALUATIONS
 
