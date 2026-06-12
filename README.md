@@ -438,8 +438,43 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 [View PDF](docs/result/figures/dap_vs_baselines_deep1m_audio.pdf)
 
 
+```  
+## Metrics  
+For matched-recall search
+
+- **`SearchRt0p95_ms`**: mean query latency (ms/query) at Recall@k = 0.95
+- **`PathRt0p95`**: **search path length** at that matched-recall point (avg visited nodes/query)
+- **`InsertAvg_ms`, `DeleteAvg_ms`**: average insert/delete cost (ms/op) for FIFO runs (UpdateCount > 0)
+- **`IndexingTime_s`**: index build time (seconds)
+- **`MaxRecall`, `MaxRecallEf`**: best recall reached in the evaluated ef range and the ef that achieved it
 
 
+Each row is one `(ef, recall, qps)` sample for a method (and optionally an UpdateCount).
+
+
+### FIFO paper figures (Audio/MNIST/SIFT)
+
+Use the provided script:
+
+
+
+### Custom Jupyter tables/plots
+
+Typical workflow:
+
+1. Load `solmaz_table_*.csv`
+2. Compute `QPS@R = 1000 / SearchRtR_ms`
+3. Use `PathRtR` to analyze traversal effort
+
+## Baselines (NSG/GATE FIFO rebuild)
+
+Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incremental). It emits:
+
+- per-step curves: `step_*/nsg_curve_k100.csv`, `step_*/gate_curve_k100.csv`
+- summary rebuild times: `fifo_summary_K100.csv`
+
+
+```
 ## Research Project Directory Structure
 
 ```
