@@ -404,41 +404,49 @@ DAPG improves recall and reduces query time compared with reproduced LSH-APG acr
 Performance comparison of DAPG vs. LSH-APG on DEEP1M, MNIST, and SIFT1M.
 DAPG continues to achieve higher recall and lower query latency than LSH-APG across all datasets, demonstrating consistent scalability and efficiency gains at larger neighborhood sizes.
 <table>
-<tr>
-<td>
 
----
 
+  
 ## Query Efficiency and Recall
 
 DAPG improves the recall-latency trade-off over LSH-APG across neighborhood budgets and datasets. On **Deep1M**, DAPG achieves comparable or higher recall with lower query time than LSH-APG. On **Audio**, DAPG also reduces latency while preserving high recall.
 
-![Query time and recall vs. ef](docs/result/figures/query_time_and_recall_vs_ef.png)
+<p align="center">
+  <img src="docs/result/figures/query_time_and_recall_vs_ef.png" width="55%">
+</p>
 
-[View PDF](docs/result/figures/query_time_and_recall_vs_ef.pdf)
-
----
+<p align="center">
+  <a href="docs/result/figures/query_time_and_recall_vs_ef.pdf">View PDF</a>
+</p>
 
 ## DAPG vs. LSH-APG Recall-Latency
 
 DAPG consistently improves the recall-latency trade-off over LSH-APG across neighborhood budgets. The best trade-off occurs at **k = 10**, where DAPG reaches approximately **0.971 recall** with **1.378 ms** query time.
 
-![DAPG vs. LSH-APG recall-latency comparison](docs/result/figures/dap_vs_lshapg_comparison.png)
+<p align="center">
+  <img src="docs/result/figures/dap_vs_lshapg_comparison.png" width="55%">
+</p>
 
-[View PDF](docs/result/figures/dap_vs_lshapg_comparison.pdf)
-
----
+<p align="center">
+  <a href="docs/result/figures/dap_vs_lshapg_comparison.pdf">View PDF</a>
+</p>
 
 ## DAPG vs. Baselines on Deep1M and Audio
 
 DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and **Audio**, showing that distance-aware pruning preserves high-quality neighbors while producing sparse, navigable proximity graphs.
 
-![DAPG vs. baselines on Deep1M and Audio](docs/result/figures/dap_vs_baselines_deep1m_audio.png)
+<p align="center">
+  <img src="docs/result/figures/dap_vs_baselines_deep1m_audio.png" width="55%">
+</p>
 
-[View PDF](docs/result/figures/dap_vs_baselines_deep1m_audio.pdf)
+<p align="center">
+  <a href="docs/result/figures/dap_vs_baselines_deep1m_audio.pdf">View PDF</a>
+</p>
 
+> ---
 
-```  
+# ANN Index Updates
+
 ## Metrics  
 For matched-recall search
 
@@ -458,8 +466,6 @@ Use the provided script:
 
 
 
-### Custom Jupyter tables/plots
-
 Typical workflow:
 
 1. Load `solmaz_table_*.csv`
@@ -474,7 +480,8 @@ Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incr
 - summary rebuild times: `fifo_summary_K100.csv`
 
 
-```
+
+
 ## Research Project Directory Structure
 
 ```
