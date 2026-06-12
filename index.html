@@ -474,30 +474,34 @@ make</code></pre>
       </ul>
     </div>
 
-    <div class="section">
-      <h2>Project Directory Structure</h2>
+   
+<div class="section">
+  <h2>Dynamic Maintenance Efficiency</h2>
 
-      <pre><code>.
-├── .vscode/
-├── Report/
-├── cppCode/
-│   └── DAPG/
-│       ├── Makefile
-│       └── src/
-│           ├── indexes/
-│           ├── divGraph.h
-│           ├── dapgalg.h
-│           ├── Preprocess.h
-│           ├── Query.cpp
-│           └── main.cpp
-├── docs/
-│   └── result/
-├── dataset/
-├── .gitattributes
-├── .gitignore
-├── LICENSE
-└── README.md</code></pre>
-    </div>
+  <ul>
+    <li>
+      <strong>Switchable DAPG construction:</strong>
+      Uses <code>use_dap_pruning</code> to enable local percentile pruning before final degree control.
+    </li>
+    <li>
+      <strong>Localized insert/delete maintenance:</strong>
+      Uses <code>flagStates</code>, <code>deleteNode()</code>, and <code>insertNode()</code> to update only affected hash buckets and adjacency lists.
+    </li>
+    <li>
+      <strong>Sliding-window support:</strong>
+      Allows partial index construction on an active window and later insertion of unseen points.
+    </li>
+    <li>
+      <strong>Ablation traversal modes:</strong>
+      Includes pseudo traversal, collision-aware starts, anchor starts, and learned-anchor starts.
+    </li>
+    <li>
+      <strong>Deleted-node safety:</strong>
+      Ensures traversal, construction, and candidate generation skip deleted nodes.
+    </li>
+  </ul>
+</div>
+ 
 
     <div class="section">
       <h2>Contact</h2>
