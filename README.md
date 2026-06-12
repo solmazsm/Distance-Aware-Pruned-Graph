@@ -2,7 +2,7 @@
 
 # DAPG: Distance-Aware Pruned Graph
 
-> **Distance-Aware Pruned Graphs for Accurate and Efficient Approximate Nearest Neighbor Search**  
+> **Distance-Aware Pruning for Efficient Approximate Nearest Neighbor Search over Evolving Data**  
 > ![Views](https://komarev.com/ghpvc/?username=solmazsm&label=Views&color=blue)
 ---
 
