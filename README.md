@@ -92,39 +92,35 @@ Supports localized insert/delete maintenance by reapplying pruning only to affec
 </table>
 
 
-## INTRODUCTION
-This repository provides the source code for **DAPG**, a novel graph-based Approximate Nearest Neighbor (ANN) indexing system introduced in the paper.
+## Introduction
+
+This repository provides the source code for **DAPG**, a distance-aware pruned graph index for efficient Approximate Nearest Neighbor (ANN) search over evolving vector data.
 
 ---
 
+## What DAPG Adds
 
-## What DAPG Adds - DISTANCE-AWARE PRUNED GRAPH FRAMEWORK
+**Distance-Aware Pruned Graph Framework**
 
-**Distance-Aware Local Pruning (percentile threshold per node).**
-
-**Adaptive Global Sparsification (cap high-degree tails.**
-
-**Parallel construction with thread-safe updates.**
-
-**Serialization of graph + LSH structures for fast reloads.**
+- **Distance-aware local pruning:** Uses node-specific percentile thresholds to retain locally relevant neighbors.
+- **Adaptive global sparsification:** Caps high-degree nodes to control graph density and reduce redundant edges.
+- **LSH-seeded single-layer construction:** Builds a sparse proximity graph from hash-based candidate neighborhoods without hierarchical indexing.
+- **Localized update maintenance:** Supports insertions and deletions by reapplying pruning only to affected hash buckets, candidate neighborhoods, and adjacency lists.
+- **Theory-backed analysis:** Provides sparsity bounds, query-cost analysis, update-cost analysis, and conditional recall-preservation guarantees.
 
 ---
-## **Cost Model**
 
-**Local percentile threshold  + adaptive cap <code>T'</code>.**
-**LSH seeding; no hierarchy.**
+## Cost Model
 
-**Supports dynamic insertion and deletion with degree-stable connectivity.**
-
-Expected query cost factorizes into average degree and expansion depth.
+DAPG combines local percentile pruning with an adaptive global cap <code>T'</code>. The expected query cost factorizes into the final average graph degree and the expected expansion depth needed to reach the query locality basin.
 
 <pre>
-C_Q = O(&macr;d_DAPG · β(ℓ))
-T_Q = O(d · &macr;d_DAPG · β(ℓ))
-β(ℓ) = O(log n) under small-world routing
+C_Q = O(d̄_DAPG · β(ℓ))
+T_Q = O(d · d̄_DAPG · β(ℓ))
+d̄_DAPG ≤ min{p d̄_LSH, T′}
 </pre>
 
-**Cost model: <code>C<sub>Q</sub> = O(&macr;d<sub>DAPG</sub>&nbsp;β(ℓ))</code>.**
+**Cost model:** <code>C<sub>Q</sub> = O(d̄<sub>DAPG</sub> β(ℓ))</code>.
 
 ---
 
