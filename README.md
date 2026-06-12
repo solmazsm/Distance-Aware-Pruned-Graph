@@ -409,23 +409,6 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 <tr>
 <td>
 
-<b>Results at k = 10</b>
-
-## Results Snapshot
-
-Fixed-k comparison at **k = 50**.
-
-| Dataset | Method | Recall@50 | Query Time (ms) | Index Size (MB) |
-|---|---|---:|---:|---:|
-| **DEEP1M** | LSH-APG | 0.9590 | 3.43 | 250 |
-|  | **DAPG** | **0.9615** | **2.30** | 449 |
-| **MNIST** | LSH-APG | 0.9972 | 0.682 | 10 |
-|  | **DAPG** | **0.9984** | **0.560** | 27.77 |
-| **SIFT1M** | LSH-APG | 0.9580 | 2.42 | 468 |
-|  | **DAPG** | **0.9738** | **0.921** | 455 |
-
-**DAPG improves recall and query time over LSH-APG on all three datasets, with the largest gain on SIFT1M.**
-
 ---
 
 ## DAPG is lightweight, efficient, and dynamically maintainable, outperforming hierarchical and refinement-based methods in both memory and build time.
