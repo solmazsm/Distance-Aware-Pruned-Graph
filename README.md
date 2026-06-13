@@ -446,7 +446,7 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 DAPG is evaluated under two main dynamic update workloads: **random delete-and-new-insert** and **FIFO sliding window**.
 
-FIFO Sliding Window
+### 1. FIFO Sliding Window
 
 `UPDATE=fifo`
 
@@ -638,21 +638,3 @@ We report the following metrics:
 ## Contact
 
 For questions or contributions, please open an issue or contact the authors listed in the paper.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
