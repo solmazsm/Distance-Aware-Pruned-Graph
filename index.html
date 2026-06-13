@@ -507,11 +507,11 @@ make</code></pre>
 
   <p>
     DAPG is evaluated under two main dynamic update workloads:
-     
     <strong>FIFO sliding window</strong> and
     <strong>random delete-and-new-insert</strong>.
   </p>
- <h3>1. FIFO Sliding Window</h3>
+
+  <h3>1. FIFO Sliding Window</h3>
 
   <p><code>UPDATE=fifo</code></p>
 
@@ -536,17 +536,6 @@ make</code></pre>
     vectors and inserts the next unseen block, maintaining a fixed-size active window.
   </blockquote>
 
-  <h3>Additional Diagnostic Workload</h3>
-
-  <p><code>UPDATE=random_reinsert</code></p>
-
-  <p>
-    This workload deletes random active vectors and reinserts the same vectors.
-    Because the same vectors are reinserted, the data geometry does not
-    substantially change. Therefore, it is used only as an additional diagnostic
-    workload, not as the main dynamic-update setting.
-  </p>
-</div>
   <h3>2. Random Delete-and-New-Insert</h3>
 
   <p><code>UPDATE=random_new</code></p>
@@ -575,6 +564,17 @@ make</code></pre>
     set size fixed.
   </blockquote>
 
+  <h3>Additional Diagnostic Workload</h3>
+
+  <p><code>UPDATE=random_reinsert</code></p>
+
+  <p>
+    This workload deletes random active vectors and reinserts the same vectors.
+    Because the same vectors are reinserted, the data geometry does not
+    substantially change. Therefore, it is used only as an additional diagnostic
+    workload, not as the main dynamic-update setting.
+  </p>
+</div>
  
     <div class="section">
       <h2>Contact</h2>
