@@ -412,42 +412,48 @@ make</code></pre>
       </blockquote>
     </div>
 
-    <div class="section">
-      <h2>DAPG vs. LSH-APG</h2>
+ <div class="section">
+  <h2>DAPG vs. LSH-APG</h2>
 
-      <table>
-        <tr>
-          <th>Aspect</th>
-          <th>LSH-APG</th>
-          <th>DAPG</th>
-          <th>Outcome</th>
-        </tr>
-        <tr>
-          <td>Query Complexity</td>
-          <td>O(d β(ℓ))</td>
-          <td>O(d̄<sub>DAPG</sub> β(ℓ))</td>
-          <td>Same asymptotic form, smaller constant</td>
-        </tr>
-        <tr>
-          <td>Degree Control</td>
-          <td>Fixed</td>
-          <td>Adaptive percentile + global cap</td>
-          <td>Controllable sparsity</td>
-        </tr>
-        <tr>
-          <td>Update Cost</td>
-          <td>Rebuild required</td>
-          <td>Incremental amortized update</td>
-          <td>Dynamic maintenance</td>
-        </tr>
-        <tr>
-          <td>Proof Coverage</td>
-          <td>Heuristic</td>
-          <td>Formal reachability and connectivity bounds</td>
-          <td>Theoretical support</td>
-        </tr>
-      </table>
-    </div>
+  <table>
+    <tr>
+      <th>Aspect</th>
+      <th>LSH-APG</th>
+      <th>DAPG</th>
+      <th>Outcome</th>
+    </tr>
+    <tr>
+      <td>Graph Structure</td>
+      <td>Single-layer LSH-assisted graph</td>
+      <td>Single-layer distance-aware pruned graph</td>
+      <td>Same lightweight indexing style with density-aware pruning</td>
+    </tr>
+    <tr>
+      <td>Degree Control</td>
+      <td>Fixed/global degree control</td>
+      <td>Local percentile pruning with adaptive global cap</td>
+      <td>Better sparsity control across dense and sparse regions</td>
+    </tr>
+    <tr>
+      <td>Pruning Rule</td>
+      <td>Global/static pruning conditions</td>
+      <td>Node-local distance-aware thresholds</td>
+      <td>Reduces redundant edges while preserving neighborhood connectivity</td>
+    </tr>
+    <tr>
+      <td>Update Maintenance</td>
+      <td>Incremental maintenance with global pruning behavior</td>
+      <td>Localized insert/delete maintenance on affected neighborhoods</td>
+      <td>Lower update overhead without full-index reconstruction</td>
+    </tr>
+    <tr>
+      <td>Analysis</td>
+      <td>LSH-seeded graph construction analysis</td>
+      <td>Sparsity, query-cost, update-cost, and conditional recall analysis</td>
+      <td>Stronger explanation of pruning and update behavior</td>
+    </tr>
+  </table>
+</div>
 
     <div class="section">
       <h2>Figures</h2>
