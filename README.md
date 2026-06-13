@@ -549,6 +549,52 @@ We report the following metrics:
 > ---
 >
 
+<div class="section">
+  <h2>Dynamic Update Performance on SIFT1M</h2>
+
+  <p>
+    This figure compares <strong>DAPG variants</strong> with
+    <strong>Wolverine++</strong>, <strong>NSG</strong>, and <strong>GATE</strong>
+    on SIFT1M over five update rounds.
+  </p>
+
+  <p>
+    <strong>NSG</strong> and <strong>GATE</strong> maintain near-perfect
+    Recall@100, but they use rebuild-based maintenance: the index is reconstructed
+    for each updated active set. Therefore, their update cost reflects
+    rebuild-per-window maintenance rather than localized in-place updates.
+  </p>
+
+  <p>
+    <strong>Wolverine++</strong> achieves the highest Search OPS and Delete OPS,
+    showing strong update throughput. However, its Recall@100 is much lower in
+    this setting, around <strong>0.75</strong>. This indicates that high update
+    throughput can come at the cost of lower post-update accuracy.
+  </p>
+
+  <p>
+    <strong>DAPG</strong>, <strong>DAPG-Lazy</strong>, and
+    <strong>DAPG-Batch</strong> maintain stable Recall@100 around
+    <strong>0.89</strong> while avoiding full reconstruction. These variants update
+    only affected hash structures, candidate neighborhoods, and adjacency lists.
+    DAPG-Lazy defers edge repair, while DAPG-Batch amortizes pruning over an
+    update block, providing different recall-efficiency trade-offs.
+  </p>
+
+  <p>
+    <strong>DAPG+Hybrid</strong> achieves near-perfect Recall@100 by adding an
+    auxiliary HNSW candidate layer. This shows that the remaining recall gap in
+    pure DAPG is mainly due to candidate coverage under high-churn updates.
+    However, the hybrid layer introduces additional maintenance cost, especially
+    for insertions.
+  </p>
+
+  <blockquote>
+    Overall, DAPG provides a practical trade-off between recall and update cost:
+    it achieves substantially higher recall than Wolverine++ while avoiding the
+    rebuild-based maintenance required by NSG and GATE.
+  </blockquote>
+</div>
 ## Research Project Directory Structure
 
 ```
