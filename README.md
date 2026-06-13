@@ -454,8 +454,8 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 5. **Dynamic-search safety checks:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
 
-## Metrics  
-For matched-recall search
+ ## For matched-recall search
+ ## Metrics 
 
 - **`SearchRt0p95_ms`**: mean query latency (ms/query) at Recall@k = 0.95
 - **`PathRt0p95`**: **search path length** at that matched-recall point (avg visited nodes/query)
@@ -478,28 +478,38 @@ Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incr
 
 - per-step curves: `step_*/nsg_curve_k100.csv`, `step_*/gate_curve_k100.csv`
 - summary rebuild times: `fifo_summary_K100.csv`
-```
-## Wolverine Dynamic-Update Experiment Metrics
 
-For the Wolverine-style dynamic-update experiments, we report the following metrics:
+  The cost-efficiency score is computed as:
+
+```
+CostEfficiency = Recall × QPS / MaintenanceCost
+```
+| Metric | Meaning |
+|---|---|
+| **Cost Efficiency** | Recall-aware query throughput per unit maintenance cost. |
+| **Maintenance Cost** | Time required to maintain or rebuild the index after updates. |
+
+## Dynamic-Update Experiment Metrics
+
+For the dynamic-update experiments, DAPG is compared with rebuild-based **NSG** and **GATE** baselines, as well as **Wolverine++**, an update-aware graph baseline. For NSG and GATE, the index is reconstructed after each updated active set, so their update cost includes rebuild-per-window maintenance. Wolverine++ supports in-place graph updates through deletion-path repair.
+
+We report the following metrics:
 
 | Metric | Meaning |
 |---|---|
-| **Recall@100** | Post-update search accuracy measured after each insert/delete round. |
-| **Search OPS** | Query throughput, measured as the number of search operations per second. |
-| **Insert OPS** | Insertion throughput, measured as the number of inserted vectors processed per second. |
-| **Delete OPS** | Deletion throughput, measured as the number of deleted vectors processed per second. |
-| **Maintenance Cost** | Time required to maintain or rebuild the index after updates. |
-| **Cost Efficiency** | Recall-aware throughput per unit maintenance cost. |
+| **Recall@100** | Post-update search accuracy on the current active set. |
+| **Search OPS** | Query throughput, measured as search operations per second. |
+| **Insert OPS** | Insertion throughput, measured as inserted vectors processed per second. |
+| **Delete OPS** | Deletion throughput, measured as deleted vectors processed per second. |
 
-The cost-efficiency score is computed as:
 
-```text
-CostEfficiency = Recall × QPS / MaintenanceCost
+
+> ---
+>
 
 ## Research Project Directory Structure
 
-```text
+```
 .
 ├── .github/                         # GitHub configuration files
 ├── Appendix/                        # Appendix materials
