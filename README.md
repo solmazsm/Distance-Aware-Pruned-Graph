@@ -595,6 +595,16 @@ We report the following metrics:
     rebuild-based maintenance required by NSG and GATE.
   </blockquote>
 </div>
+
+
+<p align="center">
+  <img src="docs/result/figures/sift1m_dynamic_.png" width="65%" alt="Dynamic update performance on SIFT1M">
+</p>
+
+<p align="center">
+  <a href="docs/result/figures/sift1m_dynamic_.pdf">View PDF</a>
+</p>
+
 ## Research Project Directory Structure
 
 ```
