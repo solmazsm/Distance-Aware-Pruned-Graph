@@ -458,7 +458,7 @@ This workload follows a streaming-style evaluation. The index starts with the fi
 
 This simulates a sliding-window setting where the indexed dataset gradually moves forward through the stream.
 
-**Paper wording:**
+**Paper:**
 
 > In the FIFO sliding-window workload, each round removes the oldest block of vectors and inserts the next unseen block, maintaining a fixed-size active window.
 
@@ -478,7 +478,7 @@ This workload deletes random active vectors and reinserts the same vectors. Beca
 
 4. **Query traversal variants:** Added ablation variants including pseudo traversal, collision-aware starts, anchor starts, and learned-anchor starts to isolate the effect of entry selection from graph construction.
 
-5. **Dynamic-search safety checks:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
+5. **Search:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
 
  ## Metrics 
 
@@ -518,6 +518,8 @@ CostEfficiency = Recall × QPS / MaintenanceCost
 
 ### 2. Random Delete-and-New-Insert
 
+
+
 `UPDATE=random_new`
 
 This is the main stress-test workload. The index starts with an active set of **900K vectors**. At each update round, the workload:
@@ -528,7 +530,7 @@ This is the main stress-test workload. The index starts with an active set of **
 
 This workload is challenging because the data geometry changes over time. Random deletions may remove important navigational links, while new insertions introduce previously unseen neighborhoods.
 
-
+**Paper:**
 > In the random delete-and-new-insert workload, each round deletes `δ_in` randomly selected active vectors and inserts `δ_in` previously unseen vectors, keeping the active set size fixed.
 
 For the dynamic experiments, DAPG is compared with rebuild-based **NSG** and **GATE** baselines, as well as **Wolverine++**, an update-aware graph baseline. For NSG and GATE, the index is reconstructed after each updated active set, so their update cost includes rebuild-per-window maintenance. Wolverine++ supports in-place graph updates through deletion-path repair.
