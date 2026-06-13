@@ -476,67 +476,15 @@ make</code></pre>
 
    
 <div class="section">
-  <h2>Dynamic Maintenance Efficiency</h2>
-
-  <ul>
-    <li>
-      <strong>Switchable DAPG construction:</strong>
-      Uses <code>use_dap_pruning</code> to enable local percentile pruning before final degree control.
-    </li>
-    <li>
-      <strong>Localized insert/delete maintenance:</strong>
-      Uses <code>flagStates</code>, <code>deleteNode()</code>, and <code>insertNode()</code> to update only affected hash buckets and adjacency lists.
-    </li>
-    <li>
-      <strong>Sliding-window support:</strong>
-      Allows partial index construction on an active window and later insertion of unseen points.
-    </li>
-    <li>
-      <strong>Ablation traversal modes:</strong>
-      Includes pseudo traversal, collision-aware starts, anchor starts, and learned-anchor starts.
-    </li>
-    <li>
-      <strong>Deleted-node safety:</strong>
-      Ensures traversal, construction, and candidate generation skip deleted nodes.
-    </li>
-  </ul>
-</div>
- 
-<div class="section">
   <h2>Dynamic Workloads</h2>
 
   <p>
-    DAPG is evaluated under two main dynamic update workloads:
-    <strong>FIFO sliding window</strong> and
-    <strong>random delete-and-new-insert</strong>.
+    DAPG is evaluated under two main update workloads:
+    <strong>random delete-and-new-insert</strong> and
+    <strong>FIFO sliding window</strong>.
   </p>
 
-  <h3>1. FIFO Sliding Window</h3>
-
-  <p><code>UPDATE=fifo</code></p>
-
-  <p>
-    This workload follows a streaming-style evaluation. The index starts with the
-    first <strong>900K active vectors</strong>. At each update round, the workload:
-  </p>
-
-  <ul>
-    <li>Deletes the oldest block of <code>&delta;<sub>in</sub></code> vectors.</li>
-    <li>Inserts the next unseen block of <code>&delta;<sub>in</sub></code> vectors.</li>
-    <li>Maintains a fixed-size active window.</li>
-  </ul>
-
-  <p>
-    This simulates a sliding-window setting where the indexed dataset gradually
-    moves forward through the stream.
-  </p>
-
-  <blockquote>
-    In the FIFO sliding-window workload, each round removes the oldest block of
-    vectors and inserts the next unseen block, maintaining a fixed-size active window.
-  </blockquote>
-
-  <h3>2. Random Delete-and-New-Insert</h3>
+  <h3>1. Random Delete-and-New-Insert</h3>
 
   <p><code>UPDATE=random_new</code></p>
 
@@ -564,6 +512,31 @@ make</code></pre>
     set size fixed.
   </blockquote>
 
+  <h3>2. FIFO Sliding Window</h3>
+
+  <p><code>UPDATE=fifo</code></p>
+
+  <p>
+    This workload follows a streaming-style evaluation. The index starts with the
+    first <strong>900K active vectors</strong>. At each update round, the workload:
+  </p>
+
+  <ul>
+    <li>Deletes the oldest block of <code>&delta;<sub>in</sub></code> vectors.</li>
+    <li>Inserts the next unseen block of <code>&delta;<sub>in</sub></code> vectors.</li>
+    <li>Maintains a fixed-size active window.</li>
+  </ul>
+
+  <p>
+    This simulates a sliding-window setting where the indexed dataset gradually
+    moves forward through the stream.
+  </p>
+
+  <blockquote>
+    In the FIFO sliding-window workload, each round removes the oldest block of
+    vectors and inserts the next unseen block, maintaining a fixed-size active window.
+  </blockquote>
+
   <h3>Additional Diagnostic Workload</h3>
 
   <p><code>UPDATE=random_reinsert</code></p>
@@ -572,7 +545,7 @@ make</code></pre>
     This workload deletes random active vectors and reinserts the same vectors.
     Because the same vectors are reinserted, the data geometry does not
     substantially change. Therefore, it is used only as an additional diagnostic
-    workload, not as the main dynamic-update setting.
+    workload, not as the main dynamic setting.
   </p>
 </div>
  
