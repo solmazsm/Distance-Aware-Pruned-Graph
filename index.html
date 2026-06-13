@@ -560,6 +560,58 @@ make</code></pre>
 
  </p>
 </div>
+
+   <div class="section">
+  <h2>Dynamic Update Performance on SIFT1M</h2>
+
+  <p>
+    This experiment compares DAPG variants with Wolverine++, NSG, and GATE
+    over five update rounds on SIFT1M.
+  </p>
+
+  <p align="center">
+    <img 
+      src="docs/result/figures/sift1m_dynamic_update_performance.png" 
+      width="85%" 
+      alt="Dynamic update performance on SIFT1M">
+  </p>
+
+  <p align="center">
+    <a href="docs/result/figures/sift1m_dynamic_update_performance.pdf">View PDF</a>
+  </p>
+
+  <p>
+    <strong>NSG</strong> and <strong>GATE</strong> maintain near-perfect
+    Recall@100, but they rely on rebuild-per-window maintenance, where the index
+    is reconstructed for each updated active set.
+  </p>
+
+  <p>
+    <strong>Wolverine++</strong> achieves high Search OPS and Delete OPS, but its
+    Recall@100 is lower in this setting, around <strong>0.75</strong>. This shows
+    that high update throughput may come with reduced post-update accuracy.
+  </p>
+
+  <p>
+    <strong>DAPG</strong>, <strong>DAPG-Lazy</strong>, and
+    <strong>DAPG-Batch</strong> maintain stable Recall@100 around
+    <strong>0.89</strong> while avoiding full reconstruction. These methods update
+    only affected hash structures, candidate neighborhoods, and adjacency lists.
+  </p>
+
+  <p>
+    <strong>DAPG+Hybrid</strong> reaches near-perfect Recall@100 by adding an
+    auxiliary HNSW candidate layer, indicating that the remaining recall gap in
+    pure DAPG is mainly due to candidate coverage. The hybrid layer, however,
+    introduces additional insertion maintenance cost.
+  </p>
+
+  <blockquote>
+    Overall, DAPG provides a practical recall-update cost trade-off: it achieves
+    higher recall than Wolverine++ while avoiding the rebuild-based maintenance
+    required by NSG and GATE.
+  </blockquote>
+</div>
     <div class="section">
       <h2>Contact</h2>
       <p>
