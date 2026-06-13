@@ -1,0 +1,18 @@
+-----------------------------------------------------------------------------------
+M: 32 ef: 300 newLinkSize: 32 num_threads: 64circul_sum: 5 delete_parts: 0.0111111 delete_model: APPROXIMATE_TWOHOP_DELETE
+data_file_path: ./datasets/sift1m_fifo_900k/sift1m_900k_stream.fbin query_file_path: ./datasets/sift1m_fifo_900k/sift_query.fbin
+ groundtruth_file_path: ./datasets/sift1m_fifo_900k/sift_query_learn_gt100_ search_result_file_path: ./result/wolverine_sift1m_fifo900k_block10k_rounds5_M32_ef300.csv index_prefix: ./index/sift1m_fifo900k_M32_ef300_wolverineProMax
+-----------------------------------------------------------------------------------
+Read data
+Read query
+max_elements: 900000 dim: 128
+query_sum: 10000 query_dim: 128
+groundtruth_sum: 0 groundtruth_dim: 0
+Initing index
+create index: ./index/sift1m_fifo900k_M32_ef300_wolverineProMax.hnswindex
+start search
+cir_times: 0	recall: 0.7614	search_OPS: 187512 query\second	delete_ops: 12273.4 point\second	add_ops: 12900.6 point\second
+cir_times: 1	recall: 0.76003	search_OPS: 183891 query\second	delete_ops: 11898.7 point\second	add_ops: 10869.7 point\second
+cir_times: 2	recall: 0.76318	search_OPS: 160966 query\second	delete_ops: 13368.3 point\second	add_ops: 10827 point\second
+cir_times: 3	recall: 0.76383	search_OPS: 182655 query\second	delete_ops: 13969.3 point\second	add_ops: 11402 point\second
+cir_times: 4	recall: 0.765	search_OPS: 192293 query\second	delete_ops: 16158.3 point\second	add_ops: 12216 point\second
