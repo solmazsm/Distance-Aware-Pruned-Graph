@@ -502,7 +502,80 @@ make</code></pre>
   </ul>
 </div>
  
+<div class="section">
+  <h2>Dynamic Workloads</h2>
 
+  <p>
+    DAPG is evaluated under two main dynamic update workloads:
+     
+    <strong>FIFO sliding window</strong> and
+    <strong>random delete-and-new-insert</strong>.
+  </p>
+ <h3>1. FIFO Sliding Window</h3>
+
+  <p><code>UPDATE=fifo</code></p>
+
+  <p>
+    This workload follows a streaming-style evaluation. The index starts with the
+    first <strong>900K active vectors</strong>. At each update round, the workload:
+  </p>
+
+  <ul>
+    <li>Deletes the oldest block of <code>&delta;<sub>in</sub></code> vectors.</li>
+    <li>Inserts the next unseen block of <code>&delta;<sub>in</sub></code> vectors.</li>
+    <li>Maintains a fixed-size active window.</li>
+  </ul>
+
+  <p>
+    This simulates a sliding-window setting where the indexed dataset gradually
+    moves forward through the stream.
+  </p>
+
+  <blockquote>
+    In the FIFO sliding-window workload, each round removes the oldest block of
+    vectors and inserts the next unseen block, maintaining a fixed-size active window.
+  </blockquote>
+
+  <h3>Additional Diagnostic Workload</h3>
+
+  <p><code>UPDATE=random_reinsert</code></p>
+
+  <p>
+    This workload deletes random active vectors and reinserts the same vectors.
+    Because the same vectors are reinserted, the data geometry does not
+    substantially change. Therefore, it is used only as an additional diagnostic
+    workload, not as the main dynamic-update setting.
+  </p>
+</div>
+  <h3>2. Random Delete-and-New-Insert</h3>
+
+  <p><code>UPDATE=random_new</code></p>
+
+  <p>
+    This is the main stress-test workload. The index starts with an active set
+    of <strong>900K vectors</strong>. At each update round, the workload:
+  </p>
+
+  <ul>
+    <li>Deletes <code>&delta;<sub>in</sub></code> randomly selected active vectors.</li>
+    <li>Inserts <code>&delta;<sub>in</sub></code> previously unseen vectors.</li>
+    <li>Keeps the active set size fixed at <strong>900K</strong>.</li>
+  </ul>
+
+  <p>
+    This workload is challenging because the data geometry changes over time.
+    Random deletions may remove important navigational links, while new insertions
+    introduce previously unseen neighborhoods.
+  </p>
+
+  <blockquote>
+    In the random delete-and-new-insert workload, each round deletes
+    <code>&delta;<sub>in</sub></code> randomly selected active vectors and inserts
+    <code>&delta;<sub>in</sub></code> previously unseen vectors, keeping the active
+    set size fixed.
+  </blockquote>
+
+ 
     <div class="section">
       <h2>Contact</h2>
       <p>
