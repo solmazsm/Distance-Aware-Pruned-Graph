@@ -409,7 +409,7 @@ DAPG continues to achieve higher recall and lower query latency than LSH-APG acr
 DAPG improves the recall-latency trade-off over LSH-APG across neighborhood budgets and datasets. On **Deep1M**, DAPG achieves comparable or higher recall with lower query time than LSH-APG. On **Audio**, DAPG also reduces latency while preserving high recall.
 
 <p align="center">
-  <img src="docs/result/figures/query_time_and_recall_vs_ef.png" width="55%">
+  <img src="docs/result/figures/query_time_and_recall_vs_ef.png" width="35%">
 </p>
 
 <p align="center">
