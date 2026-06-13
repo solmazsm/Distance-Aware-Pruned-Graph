@@ -442,7 +442,33 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 > ---
 
-## Dynamic Maintenance Efficiency
+## Dynamic Workloads
+
+DAPG is evaluated under two main dynamic update workloads: **random delete-and-new-insert** and **FIFO sliding window**.
+
+FIFO Sliding Window
+
+`UPDATE=fifo`
+
+This workload follows a streaming-style evaluation. The index starts with the first **900K active vectors**. At each update round, the workload:
+
+* Deletes the oldest block of `δ_in` vectors.
+* Inserts the next unseen block of `δ_in` vectors.
+* Maintains a fixed-size active window.
+
+This simulates a sliding-window setting where the indexed dataset gradually moves forward through the stream.
+
+**Paper wording:**
+
+> In the FIFO sliding-window workload, each round removes the oldest block of vectors and inserts the next unseen block, maintaining a fixed-size active window.
+
+### Additional Diagnostic Workload
+
+`UPDATE=random_reinsert`
+
+This workload deletes random active vectors and reinserts the same vectors. Because the same vectors are reinserted, the data geometry does not substantially change. Therefore, it is used only as an additional diagnostic workload, not as the main dynamic-update setting.
+
+
 
 1. **Switchable DAPG construction path:** Added a `use_dap_pruning` option. When enabled, `insertLSHRefine()` applies local percentile distance pruning before the final degree-pruning step, while retaining the LSH candidate-seeding and global degree-control baseline path.
 
@@ -454,7 +480,6 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 5. **Dynamic-search safety checks:** Added checks so traversal, construction, and candidate generation skip deleted nodes. Serialization support was also added for active/deleted flags and indexing time.
 
- ## For matched-recall search
  ## Metrics 
 
 - **`SearchRt0p95_ms`**: mean query latency (ms/query) at Recall@k = 0.95
@@ -484,14 +509,29 @@ Evaluates **NSG/GATE by rebuilding per window** (since upstream code is not incr
 ```
 CostEfficiency = Recall × QPS / MaintenanceCost
 ```
+
 | Metric | Meaning |
 |---|---|
 | **Cost Efficiency** | Recall-aware query throughput per unit maintenance cost. |
 | **Maintenance Cost** | Time required to maintain or rebuild the index after updates. |
 
-## Dynamic-Update Experiment Metrics
 
-For the dynamic-update experiments, DAPG is compared with rebuild-based **NSG** and **GATE** baselines, as well as **Wolverine++**, an update-aware graph baseline. For NSG and GATE, the index is reconstructed after each updated active set, so their update cost includes rebuild-per-window maintenance. Wolverine++ supports in-place graph updates through deletion-path repair.
+### 2. Random Delete-and-New-Insert
+
+`UPDATE=random_new`
+
+This is the main stress-test workload. The index starts with an active set of **900K vectors**. At each update round, the workload:
+
+* Deletes `δ_in` randomly selected active vectors.
+* Inserts `δ_in` previously unseen vectors.
+* Keeps the active set size fixed at **900K**.
+
+This workload is challenging because the data geometry changes over time. Random deletions may remove important navigational links, while new insertions introduce previously unseen neighborhoods.
+
+
+> In the random delete-and-new-insert workload, each round deletes `δ_in` randomly selected active vectors and inserts `δ_in` previously unseen vectors, keeping the active set size fixed.
+
+For the dynamic experiments, DAPG is compared with rebuild-based **NSG** and **GATE** baselines, as well as **Wolverine++**, an update-aware graph baseline. For NSG and GATE, the index is reconstructed after each updated active set, so their update cost includes rebuild-per-window maintenance. Wolverine++ supports in-place graph updates through deletion-path repair.
 
 We report the following metrics:
 
@@ -540,5 +580,21 @@ We report the following metrics:
 ## Contact
 
 For questions or contributions, please open an issue or contact the authors listed in the paper.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
