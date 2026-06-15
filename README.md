@@ -1,6 +1,6 @@
 # DAPG: Distance-Aware Pruned Graph
 
-> **Distance-Aware Pruning for Efficient Approximate Nearest Neighbor Search over Evolving Data**  
+> **> Distance-Aware Pruning for Dynamic Vector Index Maintenance and Efficient Approximate Nearest Neighbor Search**  
 > ![Views](https://komarev.com/ghpvc/?username=solmazsm&label=Views&color=blue)
 ---
 
@@ -31,20 +31,21 @@
 
 ---
 
-## **ABSTRACT**
+## **Abstract**
 
-DAPG introduces percentile-based local filtering and adaptive global sparsification to build degree-adaptive proximity graphs that preserve reachability while reducing redundant edges.  
-DAPG improves latency–recall trade-offs over **state-of-the-art (SOTA)** baselines without multi-layer indexing.
+DAPG addresses **dynamic vector index maintenance** for high-dimensional approximate nearest neighbor search. It combines percentile-based local filtering with adaptive global sparsification to build degree-adaptive proximity graphs that reduce redundant edges while preserving neighborhood connectivity. DAPG improves the recall-latency trade-off over representative static and update-aware ANN baselines without multi-layer indexing.
 
 <p>
   <kbd>+3.3% recall</kbd>
-  <kbd>2.9× faster</kbd>
-  <kbd>Single layer</kbd>
+  <kbd>2.9&times; lower query time</kbd>
+  <kbd>Localized updates</kbd>
   <kbd>LSH seeding</kbd>
 </p>
 
 ---
 ## Why This Work
+
+The key data management challenge addressed by DAPG is **dynamic vector index maintenance**: supporting fast ANN search while efficiently handling insertions and deletions without full-index reconstruction.
 
 ### What existing ANN methods miss and how **DAPG** addresses them
 
@@ -94,7 +95,7 @@ Supports localized insert/delete maintenance by reapplying pruning only to affec
 
 ## Introduction
 
-This repository provides the source code for **DAPG**, a distance-aware pruned graph index for efficient Approximate Nearest Neighbor (ANN) search over evolving vector data.
+This repository provides the source code for **DAPG**, a distance-aware pruned graph index for **dynamic vector index maintenance** and efficient Approximate Nearest Neighbor (ANN) search over evolving vector data.
 
 ---
 
@@ -442,7 +443,9 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
 
 > ---
 
-## Dynamic Workloads
+## Dynamic Experiments
+
+We evaluate DAPG under dynamic update workloads on SIFT1M using a fixed active set of 900K vectors. At each update round, the index processes a block of deletions and insertions, then evaluates Recall@100 and update throughput on the current active set.
 
 DAPG is evaluated under two main dynamic update workloads: **FIFO sliding window** and **random delete-and-new-insert**.
 
@@ -605,9 +608,46 @@ We report the following metrics:
   <a href="docs/result/figures/sift1m_dynamic_.pdf">View PDF</a>
 </p>
 
-## Research Project Directory Structure
+
+### Stress-test workload
+
+**Random delete-and-new-insert (`UPDATE=random_new`)**
+
+This is the main stress-test workload. At each round, the index deletes `delta_in` randomly selected active vectors and inserts `delta_in` previously unseen vectors. The active set size remains fixed at 900K.
+
+**FIFO sliding window (`UPDATE=fifo`)**
+
+This workload follows a streaming-style evaluation. At each round, the oldest block of vectors is deleted and the next unseen block is inserted, maintaining a fixed-size active window.
+
+**Random delete-and-reinsert (`UPDATE=random_reinsert`)**
+
+This diagnostic workload deletes random active vectors and reinserts the same vectors. Since the same vectors are reinserted, the data geometry changes less than in the random-new workload.
+
+### DAPG Update Experiment
+
+The main DAPG update experiment compares DAPG with DAPG+Hybrid under random delete-and-new-insert updates.
+
+- DAPG uses localized update maintenance.
+- DAPG+Hybrid adds an auxiliary HNSW candidate layer.
+- Both are evaluated for 5 update rounds with a 900K active set and 10K updates per round.
+
+Configuration:
 
 ```
+Dataset: SIFT1M
+Active set: 900K
+Update block: 10K delete + 10K insert per round
+Rounds: 5
+Workload: random delete-and-new-insert
+k: 100
+DAPG parameters: L=2, K=18, T=24, efC=80
+Search ef: 2100
+
+```
+
+## Research Project Directory Structure
+
+```  
 .
 ├── .github/                         # GitHub configuration files
 ├── Appendix/                        # Appendix materials
