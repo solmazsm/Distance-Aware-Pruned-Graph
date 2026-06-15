@@ -618,6 +618,30 @@ make</code></pre>
     higher recall than Wolverine++ while avoiding the rebuild-based maintenance
     required by NSG and GATE.
   </blockquote>
+
+     <div class="section">
+  <h2>Result Summary</h2>
+
+  <p>
+    The optimized DAPG setting demonstrates that <strong>DAPG</strong> maintains
+    stable Recall@100 around <strong>0.975&ndash;0.977</strong>, while
+    <strong>DAPG+Hybrid</strong> reaches near-perfect Recall@100 around
+    <strong>1.0</strong>.
+  </p>
+
+  <p>
+    <strong>DAPG</strong> achieves approximately
+    <strong>10K&ndash;20K Delete OPS</strong>, whereas
+    <strong>DAPG+Hybrid</strong> achieves approximately
+    <strong>20K&ndash;40K Delete OPS</strong>.
+  </p>
+
+  <blockquote>
+    These results indicate that the hybrid HNSW candidate layer improves
+    candidate coverage and delete throughput, but it also introduces additional
+    maintenance cost, especially for insertions.
+  </blockquote>
+</div>
 </div>
     <div class="section">
       <h2>Contact</h2>
