@@ -1,7 +1,7 @@
 # DAPG: Distance-Aware Pruned Graph
 
-> **> Distance-Aware Pruning for Dynamic Vector Index Maintenance and Efficient Approximate Nearest Neighbor Search**  
-> ![Views](https://komarev.com/ghpvc/?username=solmazsm&label=Views&color=blue)
+> **Distance-Aware Pruning for Dynamic Vector Index Maintenance and Efficient Approximate Nearest Neighbor Search**  
+> 
 ---
 
 
@@ -33,13 +33,12 @@
 
 ## **Abstract**
 
-DAPG addresses **dynamic vector index maintenance** for high-dimensional approximate nearest neighbor search by introducing a degree-adaptive proximity graph that uses percentile-based local filtering and adaptive global sparsification to reduce redundant edges while preserving neighborhood connectivity. DAPG improves the recall-latency trade-off over representative static and update-aware ANN baselines without multi-layer indexing.
-
+DAPG addresses **dynamic vector index maintenance** for high-dimensional approximate nearest neighbor search by introducing a degree-adaptive proximity graph that uses percentile-based local filtering and adaptive global sparsification to reduce redundant edges while preserving neighborhood connectivity. DAPG improves the recall-latency trade-off over representative static and update-aware ANN baselines without multi-layer indexing, while maintaining stable post-update Recall@100 around **0.975–0.977**.
 <p>
   <kbd>+3.3% recall</kbd>
   <kbd>2.9&times; lower query time</kbd>
+  <kbd>Recall@100 0.975&ndash;0.977</kbd>
   <kbd>Localized updates</kbd>
-  <kbd>LSH seeding</kbd>
 </p>
 
 ---
