@@ -33,11 +33,11 @@
 
 ## **Abstract**
 
-DAPG addresses **dynamic vector index maintenance** for high-dimensional approximate nearest neighbor search by introducing a degree-adaptive proximity graph that uses percentile-based local filtering and adaptive global sparsification to reduce redundant edges while preserving neighborhood connectivity. DAPG improves the recall-latency trade-off over representative static and update-aware ANN baselines without multi-layer indexing, while maintaining stable post-update Recall@100 around **0.975–0.977**.
+DAPG addresses **dynamic vector index maintenance** for high-dimensional approximate nearest neighbor search by introducing a degree-adaptive proximity graph that uses percentile-based local filtering and adaptive global sparsification to reduce redundant edges while preserving neighborhood connectivity. DAPG improves the recall-latency trade-off over representative static and update-aware ANN baselines without multi-layer indexing, while maintaining stable post-update Recall@100 around **0.975 to 0.977**.
 <p>
   <kbd>+3.3% recall</kbd>
   <kbd>2.9&times; lower query time</kbd>
-  <kbd>Recall@100 0.975&ndash;0.977</kbd>
+  <kbd>Recall@100 0.975 to 0.977</kbd>
   <kbd>Localized updates</kbd>
 </p>
 
