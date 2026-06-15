@@ -658,7 +658,6 @@ The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@10
 ```  
 .
 ├── .github/                         # GitHub configuration files
-├── Appendix/                        # Appendix materials
 ├── cppCode/
 │   └── DAPG/
 │       ├── Makefile                 # Build configuration
