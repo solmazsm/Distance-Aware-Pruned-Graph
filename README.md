@@ -608,8 +608,28 @@ We report the following metrics:
   <a href="docs/result/figures/sift1m_dynamic_.pdf">View PDF</a>
 </p>
 
+### DAPG Update Experiment under the Optimized DAPG Setting
 
-### Stress-test workload
+This experiment compares **DAPG** with **DAPG+Hybrid** under the random delete-and-new-insert update workload.
+
+- **DAPG** uses localized update maintenance.
+- **DAPG+Hybrid** adds an auxiliary HNSW candidate layer to improve candidate coverage.
+- Both methods are evaluated over **5 update rounds** with a **900K active set** and **10K deletions + 10K insertions per round**.
+
+**Configuration**
+
+```
+Dataset: SIFT1M
+Active set: 900K
+Update block: 10K delete + 10K insert per round
+Rounds: 5
+Workload: random delete-and-new-insert
+k: 100
+DAPG parameters: L=2, K=18, T=24, efC=80
+Search ef: 2100
+
+```
+### Parameter Study
 
 **Random delete-and-new-insert (`UPDATE=random_new`)**
 
@@ -623,27 +643,9 @@ This workload follows a streaming-style evaluation. At each round, the oldest bl
 
 This diagnostic workload deletes random active vectors and reinserts the same vectors. Since the same vectors are reinserted, the data geometry changes less than in the random-new workload.
 
-### DAPG Update Experiment
+**Result Summary**
 
-The main DAPG update experiment compares DAPG with DAPG+Hybrid under random delete-and-new-insert updates.
-
-- DAPG uses localized update maintenance.
-- DAPG+Hybrid adds an auxiliary HNSW candidate layer.
-- Both are evaluated for 5 update rounds with a 900K active set and 10K updates per round.
-
-Configuration:
-
-```
-Dataset: SIFT1M
-Active set: 900K
-Update block: 10K delete + 10K insert per round
-Rounds: 5
-Workload: random delete-and-new-insert
-k: 100
-DAPG parameters: L=2, K=18, T=24, efC=80
-Search ef: 2100
-
-```
+The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@100 around **0.975–0.977**, while **DAPG+Hybrid** reaches near-perfect Recall@100 around **1.0**. DAPG achieves approximately **10K–20K Delete OPS**, whereas DAPG+Hybrid achieves approximately **20K–40K Delete OPS**. These results indicate that the hybrid HNSW candidate layer improves candidate coverage and delete throughput, but it also introduces additional maintenance cost, especially for insertions.
 
 ## Research Project Directory Structure
 
