@@ -1,4 +1,3 @@
-
 /**  // Purpose:  Distance-Aware Pruning for Graph-based ANN Index Updates
 // # Author: Solmaz Seyed Monir
  * 
