@@ -43,6 +43,13 @@ DAPG addresses **dynamic vector index maintenance** for high-dimensional approxi
 
 ---
 ## Why This Work
+ <div class="counter-box">
+    <span>Page Visits</span>
+    <img 
+      src="https://hits.sh/solmazsm.github.io/Distance-Aware-Pruned-Graph.svg?label=visitors&color=2563eb&labelColor=111827" 
+      alt="Visitor counter">
+  </div>
+  
 
 The key data management challenge addressed by DAPG is **dynamic vector index maintenance**: supporting fast ANN search while efficiently handling insertions and deletions without full-index reconstruction.
 
