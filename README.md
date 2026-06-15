@@ -651,7 +651,7 @@ This diagnostic workload deletes random active vectors and reinserts the same ve
 
 **Result Summary**
 
-The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@100 around **0.975-0.977**, while **DAPG+Hybrid** reaches near-perfect Recall@100 around **1.0**. DAPG achieves approximately **10K–20K Delete OPS**, whereas DAPG+Hybrid achieves approximately **20K-40K Delete OPS**. These results indicate that the hybrid HNSW candidate layer improves candidate coverage and delete throughput, but it also introduces additional maintenance cost, especially for insertions.
+The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@100 around **0.975-0.977**, while **DAPG+Hybrid** reaches near-perfect Recall@100 around **1.0**. DAPG achieves approximately **10K-20K Delete OPS**, whereas DAPG+Hybrid achieves approximately **20K-40K Delete OPS**. These results indicate that the hybrid HNSW candidate layer improves candidate coverage and delete throughput, but it also introduces additional maintenance cost, especially for insertions.
 
 ## Research Project Directory Structure
 
@@ -672,12 +672,12 @@ The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@10
 │           └── main.cpp             # Main executable entry point
 ├── docs/
 │   └── result/
-│       ├── figures/                 # Result figures
-│       ├── result/                  # Additional result images
+│       ├── figures/                 
+│       ├── result/                 
 │       ├── _Evaluation_DAPG.ipynb   # Evaluation notebook
-│       └── recall_vs_qt_sift100m... # SIFT100M recall-latency result
+│       └── recall_vs_qt_sift100m  # SIFT100M recall-latency result
 ├── dynamic/
-│   └── DAPG-dynamic...              # Dynamic-update experiment scripts/results
+│   └── DAPG-dynamic              # Dynamic-update 
 ├── LICENSE
 ├── README.md
 └── index.html                       # Project webpage
