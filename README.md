@@ -653,6 +653,33 @@ This diagnostic workload deletes random active vectors and reinserts the same ve
 
 The optimized DAPG setting demonstrates that **DAPG** maintains stable Recall@100 around **0.975-0.977**, while **DAPG+Hybrid** reaches near-perfect Recall@100 around **1.0**. DAPG achieves approximately **10K-20K Delete OPS**, whereas DAPG+Hybrid achieves approximately **20K-40K Delete OPS**. These results indicate that the hybrid HNSW candidate layer improves candidate coverage and delete throughput, but it also introduces additional maintenance cost, especially for insertions.
 
+
+
+
+### Post-Update Graph Robustness
+
+To evaluate whether DAPG structurally degrades under repeated dynamic updates, we log post-update graph statistics on SIFT1M under the random delete-and-new-insert workload. The index starts with 900K active vectors. At each round, 10K randomly selected active vectors are deleted and 10K previously unseen vectors are inserted.
+
+The statistics show that repeated updates gradually reduce the average live degree and increase stale edges, which is expected because random deletions remove valid neighbors. However, the number of zero-degree active vertices remains very small relative to the 900K active set. After five update rounds, zero-degree active nodes remain below 0.1% of the active graph.
+
+These results indicate that DAPG does not structurally collapse under high-churn updates. Although localized maintenance does not remove all stale links immediately, it preserves enough live neighborhood connectivity to support stable Recall@100 across update rounds.
+
+**Metrics reported:**
+
+- `Average Live Degree`: average number of valid outgoing neighbors per active node.
+- `Zero-Degree Active Nodes`: number of active nodes with no valid outgoing neighbors.
+- `Stale Edges`: edges pointing to deleted or inactive nodes.
+- `Live Edges`: edges pointing to active nodes.
+
+This analysis supports the dynamic-update results by showing that DAPG maintains graph connectivity while avoiding full reconstruction.
+
+
+<p align="center">
+ 
+  <a href="docs/result/Post-Update_Graph_Robustness.md">Post-Update Graph Robustness Results</a>
+</p>
+
+
 ## Research Project Directory Structure
 
 ```  
