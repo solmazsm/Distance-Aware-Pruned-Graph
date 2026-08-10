@@ -671,10 +671,14 @@ These results indicate that DAPG does not structurally collapse under high-churn
 - `Stale Edges`: edges pointing to deleted or inactive nodes.
 - `Live Edges`: edges pointing to active nodes.
 
-This analysis supports the dynamic-update results by showing that DAPG maintains graph connectivity while avoiding full reconstruction.
 
+
+![Post-Update Graph Robustness](docs/result/figures/Dynamic_robustness.png)
 
 [Post-Update Graph Robustness Notebook](docs/result/Post-Update_Graph_Robustness.ipynb)
+
+This analysis supports the dynamic-update results by showing that DAPG maintains graph connectivity while avoiding full reconstruction.
+
 
 ## Research Project Directory Structure
 
