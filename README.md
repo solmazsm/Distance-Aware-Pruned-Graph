@@ -675,8 +675,8 @@ This analysis supports the dynamic-update results by showing that DAPG maintains
 
 
 <p align="center">
- 
-  <a href="docs/result/Post-Update_Graph_Robustness.md">Post-Update Graph Robustness Results</a>
+  
+  <a href="docs/result/Post-Update_Graph_Robustness.ipynb">Post-Update Graph Robustness Notebook</a>
 </p>
 
 
