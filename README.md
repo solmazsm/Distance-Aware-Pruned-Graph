@@ -673,9 +673,9 @@ These results indicate that DAPG does not structurally collapse under high-churn
 
 
 
-![Post-Update Graph Robustness](docs/result/figures/Dynamic_robustness.png)
+![Post-Update Graph Robustness](docs/result/Dynamic_robustness.png)
 
-[Post-Update Graph Robustness Notebook](docs/result/Post-Update_Graph_Robustness.ipynb)
+[Post-Update Graph Robustness Notebook](docs/result/Dynamic_robustness.ipynb)
 
 This analysis supports the dynamic-update results by showing that DAPG maintains graph connectivity while avoiding full reconstruction.
 
