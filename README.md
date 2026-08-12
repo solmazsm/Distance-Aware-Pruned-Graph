@@ -447,6 +447,20 @@ DAPG achieves the highest Recall@10 and the lowest query time on **Deep1M** and 
   <a href="docs/result/figures/dap_vs_baselines_deep1m_audio.pdf">View PDF</a>
 </p>
 
+
+
+## EF Sweep and Recall-Latency Curves
+
+We provide additional SIFT1M `k=100` ef-sweep results to support matched search-budget evaluation. The sweep includes `ef` values near `k`, as well as larger search budgets. We report Recall@100, query latency, and QPS, and provide Recall-vs-latency and Recall-vs-QPS plots to show the full recall-efficiency trade-off.
+
+<p align="center">
+  <img src="docs/result/figures/recall-efficiency_plots.png" width="550">
+</p>
+
+The raw CSV files and Jupyter notebook are included for reproducibility:
+
+[EF sweep notebook](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/sift1m_k100_ef_sweep_table.ipynb)
+  
 > ---
 
 ## Dynamic Experiments
