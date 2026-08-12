@@ -554,7 +554,28 @@ We report the following metrics:
 | **Delete OPS** | Deletion throughput, measured as deleted vectors processed per second. |
 
 
+### Ablation of DAPG Traversal Variants
 
+We evaluate DAPG, PSEUDO-DAPG, and AWARE-PSEUDO-DAPG under matched
+values of `W ∈ {0.1, 0.3, 0.5, 1.0}`, with LSH-APG included as the
+baseline. Across all settings, maximum recall remains comparable
+(approximately 0.9776 to 0.9788), while the traversal variants reduce
+matched-recall search latency.
+
+At Recall@0.97, PSEUDO-DAPG reduces latency by 36.7% to 44.2%, while
+AWARE-PSEUDO-DAPG reduces latency by 38.9% to 52.7% relative to
+LSH-APG across the evaluated settings.
+
+For example, at `W=1.0`, SearchRt@0.97 is 2.863 ms for LSH-APG,
+1.813 ms for PSEUDO-DAPG, and 1.747 ms for AWARE-PSEUDO-DAPG.
+The underlying DAPG pruning configuration is shared across the
+traversal variants, so this ablation isolates the contribution of
+the traversal mechanisms to query efficiency.
+
+
+The complete table, raw CSV results, and reproducibility notebook are provided for verification.
+
+[Traversal Ablation Reproducibility Notebook](docs/result/traversal-ablation_comparing.ipynb)
 > ---
 >
 
