@@ -553,7 +553,8 @@ We report the following metrics:
 | **Insert OPS** | Insertion throughput, measured as inserted vectors processed per second. |
 | **Delete OPS** | Deletion throughput, measured as deleted vectors processed per second. |
 
-
+> ---
+> 
 ### Ablation of DAPG Traversal Variants
 
 We evaluate DAPG, PSEUDO-DAPG, and AWARE-PSEUDO-DAPG under matched
@@ -577,7 +578,6 @@ The complete table, raw CSV results, and reproducibility notebook are provided f
 
 [Traversal Ablation Reproducibility Notebook](docs/result/traversal-ablation_comparing.ipynb)
 > ---
->
 
 <div class="section">
   <h2>Dynamic Update Performance on SIFT1M</h2>
