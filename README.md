@@ -460,7 +460,21 @@ We provide additional SIFT1M `k=100` ef-sweep results to support matched search-
 The raw CSV files and Jupyter notebook are included for reproducibility:
 
 [EF sweep notebook](https://github.com/solmazsm/Distance-Aware-Pruned-Graph/blob/master/docs/result/sift1m_k100_ef_sweep_table.ipynb)
-  
+
+## Local vs. Global Pruning Ablation
+
+We isolate the roles of local percentile pruning and global degree capping on SIFT1M.  
+All variants achieve comparable maximum recall (0.9768-0.9772). The local-only relaxed-cap variant incurs substantially higher matched-recall latency, indexing time, and update cost, indicating that the global cap provides the primary efficiency control. The local percentile stage instead serves as a node-specific distance filter before capping.
+
+| Variant | Local Percentile Pruning | Global Cap | T | Max Recall | Ef (Max Recall) | SearchRt@0.95 (ms) | SearchRt@0.97 (ms) | Indexing Time (s) | Insert Avg (ms) | Delete Avg (ms) |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Full DAPG, local + global | Yes | Yes | 24 | 0.9772 | 1960 | 0.88466 | 1.95520 | 78.1467 | 0.644445 | 0.149730 |
+| Global-only approx., pC=0.999 | Approx. No | Yes | 24 | 0.9768 | 2080 | 0.88044 | 1.81279 | 77.9545 | 0.654255 | 0.094695 |
+| Local-only relaxed cap, T=200 | Yes | Relaxed | 200 | 0.9769 | 2060 | 1.73639 | 3.59185 | 199.4710 | 1.974030 | 1.241030 |
+
+ Full DAPG combines node-specific distance filtering with bounded degree regulation, LSH-seeded graph construction, and localized update maintenance.
+
+  [Two-Stage Pruning Ablation Notebook](docs/result/two-stage_ablation.ipynb)
 > ---
 
 ## Dynamic Experiments
